@@ -1,0 +1,6 @@
+[22-Dec-2023 15:53:10 UTC] PHP Parse error:  syntax error, unexpected ';' in /home/gecodini/public_html/admin/addjob.php on line 44
+[22-Dec-2023 15:54:19 UTC] PHP Parse error:  syntax error, unexpected ';' in /home/gecodini/public_html/admin/addjob.php on line 44
+[22-Dec-2023 16:31:39 UTC] PHP Parse error:  syntax error, unexpected '}' in /home/gecodini/public_html/admin/newroadmap.php on line 39
+[29-Dec-2023 05:49:29 UTC] PHP Parse error:  syntax error, unexpected '<' in /home/gecodini/public_html/admin/addjob.php on line 47
+[29-Dec-2023 05:49:45 UTC] PHP Parse error:  syntax error, unexpected '<' in /home/gecodini/public_html/admin/addjob.php on line 47
+[29-Dec-2023 06:15:31 UTC] PHP Parse error:  syntax error, unexpected 'text' (T_STRING), expecting ')' in /home/gecodini/public_html/admin/addjob.php on line 47

@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "XAMPP Apache (PHP site)",
+      "runtimeExecutable": "cmd",
+      "runtimeArgs": ["/c", "C:\\xampp\\apache_start.bat"],
+      "port": 80
+    },
+    {
+      "name": "PHP Built-in Server (port 8080)",
+      "runtimeExecutable": "php",
+      "runtimeArgs": ["-S", "localhost:8080", "-t", "C:\\xampp\\htdocs\\Gecod data"],
+      "port": 8080
+    }
+  ]
+}

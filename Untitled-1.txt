@@ -33,12 +33,6 @@ Wise supports Uganda withdrawals and is used by thousands of African NGOs and bu
 
 ---
 
-## About the Kenya PayPal idea
-
-I'd advise against it. Opening a PayPal account with a Kenya number for a Uganda-registered NGO is misrepresentation — PayPal can freeze the account and hold the funds if they detect the mismatch. That's a risk you don't want with donor money.
-
----
-
 ## Recommended Setup: Two payment methods
 
 | Method | Who uses it | Trust level | Integration |
@@ -52,13 +46,13 @@ Both buttons on the donation section — donor chooses.
 
 ## Action plan
 
-**This week — do these first:**
+**This week we will do these first:**
 1. Create **Wise business account** → get your US virtual bank account number
 2. In **PayPal Business** → add that Wise account as your withdrawal bank
 3. Test a small withdrawal ($1) to confirm it flows through
 4. Create **Flutterwave account** for the organisation
 
-**Then come back here and I will:**
+**Then we will get  back here and we will:**
 - Wire the Flutterwave payment button into the donate section alongside PayPal
 - Build the webhook that saves every payment (PayPal or Flutterwave) to the database automatically
 - Connect it to the sponsorship audit page so both payment types show up

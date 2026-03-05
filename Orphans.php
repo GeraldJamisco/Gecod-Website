@@ -30,7 +30,7 @@ include 'includes/header.php';
         </div>
         <div class="row justify-content-center mb-5">
             <div class="col-lg-8 text-center">
-                <p class="sponsor-intro-text">For just <strong>$38 / month</strong> you can transform a child&rsquo;s future &mdash; covering school fees, daily meals, medical care, and clothing. Browse the children below and choose who you&rsquo;d like to support.</p>
+                <p class="sponsor-intro-text">For just <strong>$50 / month</strong> you can transform a child&rsquo;s future &mdash; covering school fees, daily meals, medical care, and clothing. Browse the children below and choose who you&rsquo;d like to support.</p>
             </div>
         </div>
         <div class="row">
@@ -77,7 +77,7 @@ include 'includes/header.php';
                             </div>
                             ' . (!empty($snippet) ? '<p class="beneficiary-snippet">&ldquo;' . $snippet . '&rdquo;</p>' : '') . '
                             <div class="beneficiary-cost">
-                                <i class="fa fa-heart"></i> <strong>$38 / month</strong> sponsors this child
+                                <i class="fa fa-heart"></i> <strong>$50 / month</strong> sponsors this child
                             </div>
                         </div>
                         <div class="beneficiary-footer">

@@ -34,7 +34,7 @@ if (isset($_GET['orphanid'])) {
 
     // Social share URLs
     $pageUrl    = urlencode('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
-    $shareText  = urlencode("Help sponsor {$childName}'s education at GECOD Initiative Uganda! Just \$38/month changes a life.");
+    $shareText  = urlencode("Help sponsor {$childName}'s education at GECOD Initiative Uganda! Just \$50/month changes a life.");
     $fbShare    = "https://www.facebook.com/sharer/sharer.php?u={$pageUrl}";
     $twShare    = "https://twitter.com/intent/tweet?text={$shareText}&url={$pageUrl}";
     $waShare    = "https://api.whatsapp.com/send?text={$shareText}%20{$pageUrl}";
@@ -142,9 +142,9 @@ if (isset($_GET['orphanid'])) {
                         </div>
                     </div>
 
-                    <!-- What $38/month covers -->
+                    <!-- What $50/month covers -->
                     <div class="sidebar-widget covers-widget">
-                        <h2 class="widget-title">What Your <span class="cost-highlight">$38 / month</span> Covers</h2>
+                        <h2 class="widget-title">What Your <span class="cost-highlight">$50 / month</span> Covers</h2>
                         <ul class="covers-list">
                             <li><i class="fa fa-graduation-cap"></i> School fees &amp; stationery</li>
                             <li><i class="fa fa-utensils"></i> Three nutritious meals daily</li>
@@ -160,7 +160,7 @@ if (isset($_GET['orphanid'])) {
 
                     <!-- Sponsor CTA Button -->
                     <button class="btn-sponsor-main" data-toggle="modal" data-target="#sponsorModal">
-                        <i class="fa fa-heart"></i> Sponsor <?php echo $childName; ?> &mdash; $38 / month
+                        <i class="fa fa-heart"></i> Sponsor <?php echo $childName; ?> &mdash; $50 / month
                     </button>
 
                 </div>
@@ -219,7 +219,7 @@ if (isset($_GET['orphanid'])) {
                 <div class="modal-body">
                     <p class="sponsor-modal-intro">
                         You&rsquo;re about to change <strong><?php echo $childName; ?>&rsquo;s</strong> life with just
-                        <strong>$38 / month</strong>. Fill in your details below to proceed to secure payment.
+                        <strong>$50 / month</strong>. Fill in your details below to proceed to secure payment.
                     </p>
                     <div class="form-group">
                         <label>Your Full Name</label>
@@ -229,7 +229,7 @@ if (isset($_GET['orphanid'])) {
                         <label>Your Email Address</label>
                         <input type="email" class="form-control" name="donoremail" placeholder="e.g. john@email.com" required>
                     </div>
-                    <input type="hidden" name="amountselected" value="38">
+                    <input type="hidden" name="amountselected" value="50">
                     <input type="hidden" name="childSponsored" value="<?php echo $childName; ?>">
                     <p class="small text-muted mt-2">
                         <i class="fa fa-lock"></i> Secure payment processed via PayPal. All major cards accepted.

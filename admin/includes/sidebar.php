@@ -46,6 +46,11 @@
                             <i class="icon-wallet menu-icon"></i><span class="nav-text">Sponsorship Audit</span>
                         </a>
                     </li>
+                    <li>
+                        <a href="newsletter.php" aria-expanded="false">
+                            <i class="icon-envelope menu-icon"></i><span class="nav-text">Newsletter</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>

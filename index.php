@@ -64,7 +64,7 @@ include 'includes/header.php';
                     </div>
                 </div>
             </div>
-            
+
             <!-- here two more to see if they will work  -->
             <div class="carousel-item">
                 <div class="carousel-img">
@@ -91,7 +91,7 @@ include 'includes/header.php';
                 <div class="carousel-text">
                     <h1>Health Programs HIV Help</h1>
                     <p>
-                    Certificate of appreciation in recognition of its outstanding performance and contribution towards health service delivery especially HIV programming.
+                        Certificate of appreciation in recognition of its outstanding performance and contribution towards health service delivery especially HIV programming.
                     </p>
                     <div class="carousel-btn">
                         <a class="btn btn-custom" href="#donate-section">Donate Now</a>
@@ -101,7 +101,7 @@ include 'includes/header.php';
                     </div>
                 </div>
             </div>
-                <!-- here two more to see if they will work  -->
+            <!-- here two more to see if they will work  -->
             <div class="carousel-item">
                 <div class="carousel-img">
                     <img src="img/Basic needs support.jpg" alt="Image">
@@ -109,7 +109,7 @@ include 'includes/header.php';
                 <div class="carousel-text">
                     <h1>Basic needs support</h1>
                     <p>
-                    Gecod providing clothes to vulnerable children in Kaliiro Sub county and Kaliiro Tc referred to us by USAID KCHS AND REPSSI
+                        Gecod providing clothes to vulnerable children in Kaliiro Sub county and Kaliiro Tc referred to us by USAID KCHS AND REPSSI
                     </p>
                     <div class="carousel-btn">
                         <a class="btn btn-custom" href="#donate-section">Donate Now</a>
@@ -119,15 +119,15 @@ include 'includes/header.php';
                     </div>
                 </div>
             </div>
-                <!-- here two more to see if they will work  -->
-             <div class="carousel-item">
+            <!-- here two more to see if they will work  -->
+            <div class="carousel-item">
                 <div class="carousel-img">
                     <img src="img/Adolescent Girls Power Analysis.jpg" alt="Image">
                 </div>
                 <div class="carousel-text">
                     <h1>Adolescent Girls Power Analysis - in Schools</h1>
                     <p>
-                    Building resilience and amplifying voices of Adolescent Girls in Lyantonde TC. #Adolescent Girls Power Program
+                        Building resilience and amplifying voices of Adolescent Girls in Lyantonde TC. #Adolescent Girls Power Program
                     </p>
                     <div class="carousel-btn">
                         <a class="btn btn-custom" href="#donate-section">Donate Now</a>
@@ -144,7 +144,7 @@ include 'includes/header.php';
                 <div class="carousel-text">
                     <h1>Sanitation & hygiene Promotion</h1>
                     <p>
-                    Passing on Menstrual Hygiene Training to Adolescent Girls and Young Women in Lyantonde. AGYWs were provided with re-usable sanitary pads. Join the move to Pad a girl today.
+                        Passing on Menstrual Hygiene Training to Adolescent Girls and Young Women in Lyantonde. AGYWs were provided with re-usable sanitary pads. Join the move to Pad a girl today.
                     </p>
                     <div class="carousel-btn">
                         <a class="btn btn-custom" href="#donate-section">Donate Now</a>
@@ -475,28 +475,28 @@ include 'includes/header.php';
         </div>
         <div class="owl-carousel causes-carousel">
             <?php
-                        $getroadmapindex = $conn->query("SELECT * FROM gecodroadmap ORDER BY uploadDate DESC LIMIT 4");
+            $getroadmapindex = $conn->query("SELECT * FROM gecodroadmap ORDER BY uploadDate DESC LIMIT 4");
 
-                        while ($ros = mysqli_fetch_array($getroadmapindex)) {
-                            $Titleindex = $ros['Title'];
-                            $contentindex = $ros['content'];
-                            $imageindex = $ros['image'];
+            while ($ros = mysqli_fetch_array($getroadmapindex)) {
+                $Titleindex = $ros['Title'];
+                $contentindex = $ros['content'];
+                $imageindex = $ros['image'];
 
-                            echo '<div class="causes-item">
+                echo '<div class="causes-item">
                             <div class="causes-img">
-                                <img src="img/'.$imageindex.'" alt="Image">
+                                <img src="img/' . $imageindex . '" alt="Image">
                             </div>
                            <br>
                             <div class="causes-text">
-                                <h3>'.$Titleindex.'</h3>
-                                <p>'.$contentindex.'</p>
+                                <h3>' . $Titleindex . '</h3>
+                                <p>' . $contentindex . '</p>
                             </div>
                            <br>
                         </div>
                             ';
-                        }
+            }
 
-?>
+            ?>
 
         </div>
     </div>
@@ -577,17 +577,17 @@ include 'includes/header.php';
     </div>
 </div>
 <script>
-function toggleCustomAmount(val) {
-    var group = document.getElementById('customAmountGroup');
-    var customInput = document.getElementById('customAmountInput');
-    if (val === 'custom') {
-        group.style.display = 'block';
-        customInput.setAttribute('required', 'required');
-    } else {
-        group.style.display = 'none';
-        customInput.removeAttribute('required');
+    function toggleCustomAmount(val) {
+        var group = document.getElementById('customAmountGroup');
+        var customInput = document.getElementById('customAmountInput');
+        if (val === 'custom') {
+            group.style.display = 'block';
+            customInput.setAttribute('required', 'required');
+        } else {
+            group.style.display = 'none';
+            customInput.removeAttribute('required');
+        }
     }
-}
 </script>
 <!-- Donate End -->
 <!-- Button trigger modal -->
@@ -604,31 +604,31 @@ function toggleCustomAmount(val) {
         </div>
         <div class="row">
             <?php
-// get two upcming events
-$twoevents = $conn->query("SELECT * FROM gecodevents ORDER BY recordid DESC LIMIT 2");
+            // get two upcming events
+            $twoevents = $conn->query("SELECT * FROM gecodevents ORDER BY recordid DESC LIMIT 2");
 
-while ($eventssoon = mysqli_fetch_array($twoevents)) {
-    $eventtitle = $eventssoon['eventTitle'];
-    $eventcontent = $eventssoon['eventInfo'];
-    $eventdate = $eventssoon['eventDate'];
-    $eventtimestart = $eventssoon['eventTimeStart'];
-    $eventtimeend = $eventssoon['eventTimeEnd'];
-    $eventlocation = $eventssoon['eventLocation'];
-    $eventtimage = $eventssoon['eventImageLogo'];
+            while ($eventssoon = mysqli_fetch_array($twoevents)) {
+                $eventtitle = $eventssoon['eventTitle'];
+                $eventcontent = $eventssoon['eventInfo'];
+                $eventdate = $eventssoon['eventDate'];
+                $eventtimestart = $eventssoon['eventTimeStart'];
+                $eventtimeend = $eventssoon['eventTimeEnd'];
+                $eventlocation = $eventssoon['eventLocation'];
+                $eventtimage = $eventssoon['eventImageLogo'];
 
-    echo '<div class="col-lg-6">
+                echo '<div class="col-lg-6">
     <div class="event-item">
-        <img src="img/events/'.$eventtimage.'" alt="Image">
+        <img src="img/events/' . $eventtimage . '" alt="Image">
         <div class="event-content">
             <div class="event-meta">
-                <p><i class="fa fa-calendar-alt"></i>'.$eventdate.'</p>
-                <p><i class="far fa-clock"></i>'.$eventtimestart.' - '.$eventtimeend.'</p>
-                <p><i class="fa fa-map-marker-alt"></i>'.$eventlocation.' Uganda</p>
+                <p><i class="fa fa-calendar-alt"></i>' . $eventdate . '</p>
+                <p><i class="far fa-clock"></i>' . $eventtimestart . ' - ' . $eventtimeend . '</p>
+                <p><i class="fa fa-map-marker-alt"></i>' . $eventlocation . ' Uganda</p>
             </div>
             <div class="event-text">
-                <h3>'.$eventtitle.'</h3>
+                <h3>' . $eventtitle . '</h3>
                 <p>
-                   '.$eventcontent.'
+                   ' . $eventcontent . '
                 </p>
                 <a class="btn btn-custom" href="#">Join Now</a>
                 <a class="btn btn-custom" href="">Donate</a>
@@ -636,10 +636,10 @@ while ($eventssoon = mysqli_fetch_array($twoevents)) {
         </div>
     </div>
 </div>';
-}
+            }
 
 
-?>
+            ?>
 
             <div class="col-lg-6">
                 <div class="event-item">
@@ -763,19 +763,19 @@ while ($eventssoon = mysqli_fetch_array($twoevents)) {
         <div class="owl-carousel causes-carousel">
             <!-- 1 -->
             <?php
-                            // getting all Board members
-                            $partners = $conn->query("SELECT * FROM gecodpartners");
-                            $x = 1;
-                            while ($rows = mysqli_fetch_array($partners)) {
-                                $partnerlogo = $rows['partnerlogo'];
+            // getting all Board members
+            $partners = $conn->query("SELECT * FROM gecodpartners");
+            $x = 1;
+            while ($rows = mysqli_fetch_array($partners)) {
+                $partnerlogo = $rows['partnerlogo'];
 
-                                echo  ' <div class="causes-item">
+                echo  ' <div class="causes-item partner-logo">
                                 <div class="causes-img">
-                                    <img src="img/sponsors/'.$partnerlogo.'" alt="Image">
+                                    <img src="img/sponsors/' . $partnerlogo . '" alt="Partner">
                                 </div>
                             </div>';
-                            }
-                            ?>
+            }
+            ?>
         </div>
     </div>
     <!-- Causes End -->
@@ -784,6 +784,6 @@ while ($eventssoon = mysqli_fetch_array($twoevents)) {
 
 </div>
 
-    <?php
+<?php
 include 'includes/footer.php';
-        ?>
+?>

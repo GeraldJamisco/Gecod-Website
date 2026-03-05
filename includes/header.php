@@ -129,7 +129,7 @@ if (isset($conn)) { include_once __DIR__ . '/tracker.php'; }
         <!-- Nav Bar Start -->
         <div class="navbar navbar-expand-lg bg-dark navbar-dark">
             <div class="container-fluid">
-                <a href="index.php" class="navbar-brand"><img src="./img/GECOD LOGO NO BACKGROUND.fw.png" alt=""> Go Empower Communities<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; For  Development Initiative</a>
+                <a href="index.php" class="navbar-brand"><img src="./img/GECOD LOGO NO BACKGROUND.fw.png" alt=""> GECOD INITIATIVE UGANDA</a>
                 <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
                     <span class="navbar-toggler-icon"></span>
                 </button>

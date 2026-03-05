@@ -1,4 +1,7 @@
 <?php
+include 'config.php';
+mysqli_report(MYSQLI_REPORT_OFF);
+
 if (isset($_POST['submit'])) {
     // Sanitize all inputs — strip tags, trim whitespace
     $names   = strip_tags(trim($_POST['name']   ?? ''));
@@ -38,14 +41,16 @@ if (isset($_POST['submit'])) {
         exit;
     }
 
-    $mailto  = "info@gecodinitiative.org";
-    $safeRequester = str_replace(["\r", "\n"], '', $requester);
-    $headers = "From: Newsletter Subscriber <{$safeRequester}>\r\n";
-    $headers .= "Reply-To: {$safeRequester}\r\n";
-    $subject = "Newsletter Subscription Request";
-    $body    = "A visitor has requested to receive updates from GECOD Initiative.\r\n\r\nEmail: {$requester}";
+    // Save to DB (ignore duplicate emails)
+    if (isset($conn)) {
+        $stmt = $conn->prepare("INSERT IGNORE INTO newsletter_subscribers (email) VALUES (?)");
+        if ($stmt) {
+            $stmt->bind_param("s", $requester);
+            $stmt->execute();
+            $stmt->close();
+        }
+    }
 
-    mail($mailto, $subject, $body, $headers);
     header("Location: contact.php?updatesAdded");
     exit;
 

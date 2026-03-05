@@ -226,9 +226,31 @@ include 'includes/header.php';
             </div>
         </div>
         <!-- Team End -->
-        
 
-        <?php
-include 'includes/footer.php';
-        ?>
+
+        <!-- Partners Start -->
+        <div class="causes">
+            <div class="container">
+                <div class="section-header text-center">
+                    <p>Our Partners</p>
+                    <h2>Organizations We Work With</h2>
+                </div>
+                <div class="owl-carousel causes-carousel">
+                    <?php
+                    $partners = $conn->query("SELECT * FROM gecodpartners");
+                    while ($partners && $row = $partners->fetch_assoc()) {
+                        echo '<div class="causes-item partner-logo">
+                                <div class="causes-img">
+                                    <img src="img/sponsors/' . htmlspecialchars($row['partnerlogo']) . '" alt="Partner">
+                                </div>
+                              </div>';
+                    }
+                    ?>
+                </div>
+            </div>
+        </div>
+        <!-- Partners End -->
+
+
+        <?php include 'includes/footer.php'; ?>
 

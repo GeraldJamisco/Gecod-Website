@@ -1,5 +1,8 @@
 <?php
 include 'config.php';
+$pageTitle    = 'Our Beneficiaries | Sponsor a Child in Uganda | GECOD Initiative';
+$pageDesc     = 'Meet GECOD Initiative\'s beneficiaries — orphans and vulnerable children in Uganda who need your support. Sponsor a child today and help transform their future.';
+$pageKeywords = 'sponsor a child Uganda, orphan support Uganda, GECOD beneficiaries, child sponsorship Uganda, vulnerable children Uganda, orphanage Uganda';
 include 'includes/header.php';
 ?>
 

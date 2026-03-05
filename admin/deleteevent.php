@@ -1,5 +1,6 @@
 <?php
 include 'config.php';
+include 'sessionizr.php';
 
 if (isset($_GET['eventid'])) {
     $deleteevent = $conn->real_escape_string($_GET['eventid']);

@@ -1,60 +1,52 @@
 <?php
 include 'config.php';
+include 'sessionizr.php';
 
 if (isset($_POST['add_new_Job'])) {
-    $jobTitle = $conn->real_escape_string($_POST['jobTitle']);
-    $jobDescript = $conn->real_escape_string($_POST['jobDescript']);
-    $jobPosition = $conn->real_escape_string($_POST['jobPosition']);
-    $joblocation = $conn->real_escape_string($_POST['jobLocation']);
-    $jobQualific = $conn->real_escape_string($_POST['jobQualific']);
-    $jobExperie = $conn->real_escape_string($_POST['jobExperie']);
-    $dld = $conn->real_escape_string($_POST['dld']);
-    $jobsend = $conn->real_escape_string($_POST['jobsend']);
-    $hiringType = $conn->real_escape_string($_POST['hiringType']);
+    $jobTitle    = $conn->real_escape_string($_POST['jobTitle']    ?? '');
+    $jobDescript = $conn->real_escape_string($_POST['jobDescript'] ?? '');
+    $jobPosition = $conn->real_escape_string($_POST['jobPosition'] ?? '');
+    $joblocation = $conn->real_escape_string($_POST['jobLocation'] ?? '');
+    $jobQualific = $conn->real_escape_string($_POST['jobQualific'] ?? '');
+    $jobExperie  = $conn->real_escape_string($_POST['jobExperie']  ?? '');
+    $dld         = $conn->real_escape_string($_POST['dld']         ?? '');
+    $jobsend     = $conn->real_escape_string($_POST['jobsend']     ?? '');
+    $hiringType  = $conn->real_escape_string($_POST['hiringType']  ?? '');
+    $workingHrs  = $conn->real_escape_string($_POST['workingHours'] ?? '');
 
+    $allowed   = ['jpg','jpeg','png','gif','webp'];
+    $fileField = 'profavatar';
 
-  // Generate Key
-  function random_strings($length_of_string){
-    $str_result = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890abcdefghijklmnopqrstuvwxyz';
-    return substr(str_shuffle($str_result), 0 , $length_of_string);
-   
+    if (!empty($_FILES[$fileField]['name']) && basename($_FILES[$fileField]['name']) !== '') {
+        $ext = strtolower(pathinfo($_FILES[$fileField]['name'], PATHINFO_EXTENSION));
 
+        if (!in_array($ext, $allowed)) {
+            die('<div class="alert alert-danger">Invalid file type. Allowed: jpg, jpeg, png, gif, webp.</div>');
+        }
+        if ($_FILES[$fileField]['size'] > 7000000) {
+            die('<div class="alert alert-danger">File too large. Max 7 MB.</div>');
+        }
+
+        $r_string  = substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'), 0, 6);
+        $timestamp = date('U');
+        $filename  = $conn->real_escape_string($r_string . ' ' . $timestamp . '.' . $ext);
+
+        if (move_uploaded_file($_FILES[$fileField]['tmp_name'], '../img/job_banner_images/' . $filename)) {
+            $q = "INSERT INTO jobcareer(job_title, JobDescription, position, location, qualifications, experience,
+                  contacts, imgBanner, deadlineDate, hiringType, workingHours)
+                  VALUES('$jobTitle','$jobDescript','$jobPosition','$joblocation','$jobQualific','$jobExperie',
+                         '$jobsend','$filename','$dld','$hiringType','$workingHrs')";
+            if ($conn->query($q)) {
+                header('Location: careers.php');
+                exit;
+            } else {
+                echo '<div class="alert alert-danger">Database error: ' . htmlspecialchars($conn->error) . '</div>';
+            }
+        } else {
+            echo '<div class="alert alert-danger">Error uploading image.</div>';
+        }
+    } else {
+        echo '<div class="alert alert-danger">Please select a banner image.</div>';
+    }
 }
-$r_string = random_strings(6);
-$timestamps = date('U');
-
-if (basename($_FILES["profavatar"]["name"] !== "")) {
-//Upload Profile Photo Together With Profile
-$target_dir = '../img/job_banner_images/';
-$target_file = $target_dir . basename($_FILES["profavatar"]["name"]);
-$uploadOk = 1;
-$FileType = pathinfo($target_file, PATHINFO_EXTENSION);
-
-// Check file size max(7mbs)
-if ($_FILES["profavatar"]["size"] > 7000000) {
-echo'<div style = "background-color: #263b47; color: #f1a804; font-family: arial; font-weight: bold; text-align: center; padding: 20px;"> The file is too large. Photo should not exceed 7mbs.</div>';
-$uploadOk = 0;
-}
-
-// Check if $uploadOk is set to 0 by an error
-if (move_uploaded_file($_FILES["profavatar"]["tmp_name"], "../img/job_banner_images/".$r_string." ".$timestamps.".".$FileType)) {
-
-//  $conn->query(""); 
- $insertQuery = "INSERT INTO jobcareer(job_title, JobDescription, position, location, qualifications, experience, contacts, imgBanner, deadlineDate, hiringType) VALUES ('$jobTitle','$jobDescript','$jobPosition','$joblocation','$jobQualific','$jobExperie','$jobsend','$r_string $timestamps.$FileType','$dld','$hiringType')";
- if ($conn->query($insertQuery) === TRUE) {
-     // Insertion successful
-     // Redirect the user
-     header("Location: careers.php");
-     exit();
- } else {
-     // Handle SQL error
-     echo "Error: " . $conn->error;
- }
-}
-}
-
-}
-
-
 ?>
-

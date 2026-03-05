@@ -1,11 +1,74 @@
+<?php
+// Track this page visit (requires $conn to already be set by the calling page)
+if (isset($conn)) { include_once __DIR__ . '/tracker.php'; }
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title> Gecod Initiative organisation</title>
-        <meta content="width=device-width, initial-scale=1.0" name="viewport">
-        <meta content="Go Empower Communities for Development Initiative (GECOD INITIATIVE) is a youth, women and young people led Non-profit Community Based Organization founded in 2018 aiming at empowering the vulnerable communities and vulnerable groups of people to amplify their voices, build their capacity, empower them socio-economically and support them to achieve their goals, support each other and transform communities, live quality life, attain quality education and good health." name="description">
-        <meta content="Gecod Organization, Organization Gecod initiative Organization, Initiative Gecod, Go Empower Communities for Development Initiative, Charity Organization, GECOD INITIATIVE ORGANIZATION" name="keywords"> 
+        <?php
+        $protocol     = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+        $siteBase     = $protocol . '://' . $_SERVER['HTTP_HOST'];
+        $canonicalUrl = $siteBase . strtok($_SERVER['REQUEST_URI'], '?');
+        $defaultTitle = 'GECOD Initiative | Empowering Communities in Uganda';
+        $defaultDesc  = 'Go Empower Communities for Development Initiative (GECOD) is a youth-led non-profit CBO in Uganda empowering vulnerable communities through education, health, and economic empowerment since 2018. Donate or sponsor a child today.';
+        $defaultKw    = 'GECOD Initiative, Uganda NGO, charity Uganda, community development, orphan support Uganda, Lyantonde Uganda, youth empowerment, donate Uganda';
+        $metaTitle    = isset($pageTitle)    ? $pageTitle    : $defaultTitle;
+        $metaDesc     = isset($pageDesc)     ? $pageDesc     : $defaultDesc;
+        $metaKw       = isset($pageKeywords) ? $pageKeywords : $defaultKw;
+        $ogImage      = $siteBase . '/img/gecod_intitiative_logo.png';
+        ?>
+        <title><?php echo htmlspecialchars($metaTitle); ?></title>
+        <meta name="viewport"    content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="<?php echo htmlspecialchars($metaDesc); ?>">
+        <meta name="keywords"    content="<?php echo htmlspecialchars($metaKw);   ?>">
+        <meta name="robots"      content="index, follow">
+        <link rel="canonical"    href="<?php echo htmlspecialchars($canonicalUrl); ?>">
+
+        <!-- Open Graph — Facebook, WhatsApp, LinkedIn previews -->
+        <meta property="og:type"        content="website">
+        <meta property="og:site_name"   content="GECOD Initiative">
+        <meta property="og:locale"      content="en_US">
+        <meta property="og:title"       content="<?php echo htmlspecialchars($metaTitle); ?>">
+        <meta property="og:description" content="<?php echo htmlspecialchars($metaDesc);  ?>">
+        <meta property="og:url"         content="<?php echo htmlspecialchars($canonicalUrl); ?>">
+        <meta property="og:image"       content="<?php echo htmlspecialchars($ogImage); ?>">
+
+        <!-- Twitter Card -->
+        <meta name="twitter:card"        content="summary_large_image">
+        <meta name="twitter:title"       content="<?php echo htmlspecialchars($metaTitle); ?>">
+        <meta name="twitter:description" content="<?php echo htmlspecialchars($metaDesc);  ?>">
+        <meta name="twitter:image"       content="<?php echo htmlspecialchars($ogImage); ?>">
+
+        <!-- JSON-LD: tells Google exactly what GECOD is -->
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "NGO",
+          "name": "Go Empower Communities for Development Initiative",
+          "alternateName": "GECOD Initiative",
+          "url": "<?php echo $siteBase; ?>",
+          "logo": "<?php echo $ogImage; ?>",
+          "description": "A youth, women and young people led Non-profit CBO founded in 2018 in Lyantonde, Uganda, empowering vulnerable communities.",
+          "foundingDate": "2018",
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Lyantonde",
+            "addressRegion": "Central Uganda",
+            "addressCountry": "UG"
+          },
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+256772586918",
+            "contactType": "customer support",
+            "email": "info@gecodinitiative.org"
+          },
+          "sameAs": [
+            "https://www.facebook.com/sabiiti.gordan",
+            "https://instagram.com/gecodinitiative2018"
+          ]
+        }
+        </script>
 
         <!-- Favicon -->
         <link href="img/gecod_intitiative_logo.png" rel="icon">
@@ -76,7 +139,7 @@
                         <a href="index.php" class="nav-item nav-link active">Home</a>
                         <a href="about.php" class="nav-item nav-link">About</a>
                         <a href="Orphans.php" class="nav-item nav-link">Beneficiaries</a>
-                        <a href="Road Map.php" class="nav-item nav-link">Road Map</a>
+                        <a href="Road%20Map.php" class="nav-item nav-link">Road Map</a>
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
                             <div class="dropdown-menu">

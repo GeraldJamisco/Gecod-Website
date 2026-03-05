@@ -1,5 +1,6 @@
 <?php
 include 'config.php';
+include 'sessionizr.php';
 
 if (isset($_GET['orphanid'])) {
     $deleteorphan = $conn->real_escape_string($_GET['orphanid']);

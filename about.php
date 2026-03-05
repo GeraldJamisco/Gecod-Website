@@ -1,5 +1,8 @@
 <?php
 include 'config.php';
+$pageTitle    = 'About Us | GECOD Initiative — Youth-Led NGO in Uganda';
+$pageDesc     = 'Learn about Go Empower Communities for Development Initiative (GECOD), a youth and women-led non-profit CBO founded in 2018 in Lyantonde, Uganda, dedicated to empowering vulnerable communities.';
+$pageKeywords = 'about GECOD Initiative, GECOD Uganda history, youth NGO Uganda, Lyantonde NGO, women empowerment Uganda, community CBO Uganda';
 include 'includes/header.php';
 
 ?>        
@@ -27,7 +30,7 @@ include 'includes/header.php';
                         <div class="about-img" data-parallax="scroll" data-image-src="img/about.jpg"></div>
                     </div>
                     <div class="col-lg-6">
-                        <div class="section-header">
+                        <div class="section-header text-center">
                             <p>Learn About Us</p>
                             <h2>A non-profit Community Based Organisation</h2>
                         </div>

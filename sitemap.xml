@@ -1,0 +1,54 @@
+<?php
+header('Content-Type: application/xml; charset=utf-8');
+include 'config.php';
+
+$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+$base     = $protocol . '://' . $_SERVER['HTTP_HOST'];
+
+echo '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
+echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
+
+// Static pages
+$staticPages = [
+    ['loc' => '/',                    'priority' => '1.0', 'freq' => 'weekly'],
+    ['loc' => '/about.php',           'priority' => '0.9', 'freq' => 'monthly'],
+    ['loc' => '/Orphans.php',         'priority' => '0.9', 'freq' => 'weekly'],
+    ['loc' => '/Road%20Map.php',      'priority' => '0.8', 'freq' => 'weekly'],
+    ['loc' => '/event.php',           'priority' => '0.8', 'freq' => 'weekly'],
+    ['loc' => '/careers-and-jobs.php','priority' => '0.8', 'freq' => 'weekly'],
+    ['loc' => '/contact.php',         'priority' => '0.7', 'freq' => 'monthly'],
+];
+foreach ($staticPages as $p) {
+    echo "  <url>\n";
+    echo "    <loc>" . $base . $p['loc'] . "</loc>\n";
+    echo "    <changefreq>" . $p['freq'] . "</changefreq>\n";
+    echo "    <priority>" . $p['priority'] . "</priority>\n";
+    echo "  </url>\n";
+}
+
+// Dynamic: job listings
+$jobs = $conn->query("SELECT recordid, job_title FROM jobcareer ORDER BY recordid DESC");
+if ($jobs) {
+    while ($j = $jobs->fetch_assoc()) {
+        echo "  <url>\n";
+        echo "    <loc>" . $base . "/viewjob.php?jobid=" . (int)$j['recordid'] . "</loc>\n";
+        echo "    <changefreq>weekly</changefreq>\n";
+        echo "    <priority>0.6</priority>\n";
+        echo "  </url>\n";
+    }
+}
+
+// Dynamic: road map posts
+$posts = $conn->query("SELECT recordid, Title FROM gecodroadmap ORDER BY recordid DESC");
+if ($posts) {
+    while ($p = $posts->fetch_assoc()) {
+        echo "  <url>\n";
+        echo "    <loc>" . $base . "/viewroadmap.php?id=" . (int)$p['recordid'] . "</loc>\n";
+        echo "    <changefreq>monthly</changefreq>\n";
+        echo "    <priority>0.6</priority>\n";
+        echo "  </url>\n";
+    }
+}
+
+echo '</urlset>';
+?>

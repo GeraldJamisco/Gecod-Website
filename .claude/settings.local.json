@@ -4,7 +4,13 @@
       "mcp__Claude_Preview__preview_start",
       "Bash(netstat -ano)",
       "Bash(ss -tlnp)",
-      "Bash(\"C:/xampp/htdocs/Gecod data/css/style.css\":*)"
+      "Bash(\"C:/xampp/htdocs/Gecod data/css/style.css\":*)",
+      "Bash(php -l \"/c/xampp/htdocs/Gecod data/Road Map.php\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"http://127.0.0.1/Gecod%20data/Road%20Map.php\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"http://127.0.0.1/Gecod%20data/Orphans.php\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"http://127.0.0.1/Gecod%20data/vieworphandetails.php\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"http://127.0.0.1/Gecod%20data/about.php\")",
+      "Bash(py -c \"import tempfile; print\\(tempfile.gettempdir\\(\\)\\)\")"
     ]
   }
 }

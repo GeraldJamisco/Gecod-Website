@@ -1,52 +1,36 @@
 <?php
 include 'config.php';
+include 'sessionizr.php';
 
 if (isset($_POST['add_new_partner'])) {
-    $partnernames = $conn->real_escape_string($_POST['partnernames']);
+    $partnernames = $conn->real_escape_string($_POST['partnernames'] ?? '');
 
-     // Generate Key
-     function random_strings($length_of_string){
-        $str_result = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890abcdefghijklmnopqrstuvwxyz';
-        return substr(str_shuffle($str_result), 0 , $length_of_string);
-    }
-    $r_string = random_strings(6);
-    $timestamps = date('U');
+    $allowed   = ['jpg','jpeg','png','gif','webp','svg'];
+    $fileField = 'partnerlogo';
 
-    if (basename($_FILES["partnerlogo"]["name"] !== "")) {
-    //Upload Profile Photo Together With Profile
-    $target_dir = '../img/sponsors/';
-    $target_file = $target_dir . basename($_FILES["partnerlogo"]["name"]);
-    $uploadOk = 1;
-    $FileType = pathinfo($target_file, PATHINFO_EXTENSION);
-    
-    // Check file size max(7mbs)
-    if ($_FILES["partnerlogo"]["size"] > 7000000) {
-    echo'<div style = "background-color: #263b47; color: #f1a804; font-family: arial; font-weight: bold; text-align: center; padding: 20px;"> The file is too large. Photo should not exceed 7mbs.</div>';
-    $uploadOk = 0;
-    }
-    
-    // Check if $uploadOk is set to 0 by an error
-    if (move_uploaded_file($_FILES["partnerlogo"]["tmp_name"], "../img/sponsors/".$r_string." ".$timestamps.".".$FileType)) {
-    $conn->query("INSERT INTO gecodpartners(partnernames, partnerlogo) VALUES('$partnernames', '$r_string $timestamps.$FileType')"); 
-    
-    
-    ?>
-    <script type="text/javascript">
-      function Redirect(){
-          window.location = "gecodpartners.php";
-      }
-      document.write('<p class = "text-center" style = "margin-top: 15px; padding: 5px 10px; border-radius: 3px;"><span style = "color: #263b47; background-color: #f1a804; padding: 5px 20px; border-radius: 25px; font-size: 12px;">Partner added to the website and system successfuly created. Redirecting ...</span></p>');
-      setTimeout('Redirect()', 5000);
-    </script>
-    <?php
+    if (!empty($_FILES[$fileField]['name']) && basename($_FILES[$fileField]['name']) !== '') {
+        $ext = strtolower(pathinfo($_FILES[$fileField]['name'], PATHINFO_EXTENSION));
+
+        if (!in_array($ext, $allowed)) {
+            die('<div class="alert alert-danger">Invalid file type. Allowed: jpg, jpeg, png, gif, webp, svg.</div>');
+        }
+        if ($_FILES[$fileField]['size'] > 7000000) {
+            die('<div class="alert alert-danger">File too large. Max 7 MB.</div>');
+        }
+
+        $r_string  = substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'), 0, 6);
+        $timestamp = date('U');
+        $filename  = $conn->real_escape_string($r_string . ' ' . $timestamp . '.' . $ext);
+
+        if (move_uploaded_file($_FILES[$fileField]['tmp_name'], '../img/sponsors/' . $filename)) {
+            $conn->query("INSERT INTO gecodpartners(partnernames, partnerlogo) VALUES('$partnernames','$filename')");
+            header('Location: gecodpartners.php');
+            exit;
+        } else {
+            echo '<div class="alert alert-danger">Error uploading logo.</div>';
+        }
     } else {
-    echo '<div style = "background-color: #263b47; color: #f1a804; font-family: arial; font-weight: bold; text-align: center; padding: 20px;">There was an error while uploading your photo.</div>';
+        echo '<div class="alert alert-danger">Please select a partner logo.</div>';
     }
-    }
-    
-    }
-    
-    
-    ?>
-    
-    
+}
+?>

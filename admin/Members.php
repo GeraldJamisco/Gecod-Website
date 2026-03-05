@@ -102,34 +102,56 @@ include 'includes/sidebar.php';
                                 $bodwasap = $rows['Whatsapp'];
                                 $bodimg = $rows['image'];
 
+                                $memberRecordId = $rows['recordid'];
+                                $safeNames  = htmlspecialchars($bodnames, ENT_QUOTES);
+                                $safeTitle  = htmlspecialchars($bodtitle, ENT_QUOTES);
+                                $safeTwit   = htmlspecialchars($bodtwit,  ENT_QUOTES);
+                                $safeFb     = htmlspecialchars($bodfb,    ENT_QUOTES);
+                                $safeWasap  = htmlspecialchars($bodwasap, ENT_QUOTES);
                                 echo '
                                 <div class="col-md-6 col-lg-3">
                                 <div class="card">
                                     <img class="img-fluid" src="../img/'.$bodimg.'" alt="">
                                     <div class="card-body">
-                                        <h5 class="card-title">'.$bodnames.'</h5>
-                                        <h6>'.$bodtitle.'</h6>
+                                        <h5 class="card-title">'.$safeNames.'</h5>
+                                        <h6>'.$safeTitle.'</h6>
                                         <div class="card-footer border-0 bg-transparent">
-                                <div class="row">
-                                    <div class="col-4 border-right-1 pt-3">
-                                        <a class="text-center d-block text-muted" target="_blank" rel="noopener noreferrer" href="https://'.$bodtwit.'">
-                                            <i class="fa fa-twitter gradient-1-text" aria-hidden="true"></i>
-                                        </a>
-                                    </div>
-                                    <div class="col-4 border-right-1 pt-3"><a class="text-center d-block text-muted" target="_blank" rel="noopener noreferrer" href="https://'.$bodfb.'">
-                                        <i class="fa fa-facebook gradient-3-text"></i>
-                                        </a>
-                                    </div>
-                                    <div class="col-4 pt-3"><a class="text-center d-block text-muted" target="_blank" rel="noopener noreferrer" href="https://'.$bodwasap.'">
-                                        <i class="fa fa-whatsapp gradient-4-text"></i>
-                                        </a>
+                                            <div class="row">
+                                                <div class="col-4 pt-3">
+                                                    <a class="text-center d-block text-muted" target="_blank" rel="noopener noreferrer" href="https://'.$safeTwit.'">
+                                                        <i class="fa fa-twitter gradient-1-text"></i>
+                                                    </a>
+                                                </div>
+                                                <div class="col-4 pt-3">
+                                                    <a class="text-center d-block text-muted" target="_blank" rel="noopener noreferrer" href="https://'.$safeFb.'">
+                                                        <i class="fa fa-facebook gradient-3-text"></i>
+                                                    </a>
+                                                </div>
+                                                <div class="col-4 pt-3">
+                                                    <a class="text-center d-block text-muted" target="_blank" rel="noopener noreferrer" href="https://'.$safeWasap.'">
+                                                        <i class="fa fa-whatsapp gradient-4-text"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="mt-2 d-flex justify-content-between">
+                                                <button type="button" class="btn btn-warning btn-sm"
+                                                    data-toggle="modal" data-target="#editMemberModal"
+                                                    data-id="'.$memberRecordId.'"
+                                                    data-names="'.$safeNames.'"
+                                                    data-title="'.$safeTitle.'"
+                                                    data-twit="'.$safeTwit.'"
+                                                    data-fb="'.$safeFb.'"
+                                                    data-wasap="'.$safeWasap.'"
+                                                    onclick="fillEditMember(this)">EDIT</button>
+                                                <form action="deletebdmember.php?memberid='.$memberRecordId.'" method="post"
+                                                      onsubmit="return confirm(\'Delete this team member? This cannot be undone.\')">
+                                                    <button type="submit" class="btn btn-danger btn-sm">DELETE</button>
+                                                </form>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- End Col -->';
+                            </div>';
                             }
 
 
@@ -194,6 +216,47 @@ include 'includes/sidebar.php';
 
 
 
+<!-- Edit Member Modal -->
+<div class="modal fade" id="editMemberModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Team Member</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <form action="updatebdmember.php" method="POST" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <input type="hidden" name="record_id" id="editMemberId">
+                    <div class="form-group"><label>Names</label>
+                        <input type="text" class="form-control" name="bdNames" id="editMemberNames" required></div>
+                    <div class="form-group"><label>Title / Role</label>
+                        <input type="text" class="form-control" name="bdTitle" id="editMemberTitle" required></div>
+                    <div class="form-group"><label>Twitter Link</label>
+                        <input type="text" class="form-control" name="bdtwit" id="editMemberTwit"></div>
+                    <div class="form-group"><label>Facebook Link</label>
+                        <input type="text" class="form-control" name="bdfb" id="editMemberFb"></div>
+                    <div class="form-group"><label>WhatsApp Link</label>
+                        <input type="text" class="form-control" name="bdwasap" id="editMemberWasap"></div>
+                    <div class="form-group"><label>New Photo (optional)</label>
+                        <input type="file" class="form-control-file" name="profavatar" accept="image/*"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary" name="update_member">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+function fillEditMember(btn) {
+    document.getElementById('editMemberId').value    = btn.dataset.id;
+    document.getElementById('editMemberNames').value = btn.dataset.names;
+    document.getElementById('editMemberTitle').value = btn.dataset.title;
+    document.getElementById('editMemberTwit').value  = btn.dataset.twit;
+    document.getElementById('editMemberFb').value    = btn.dataset.fb;
+    document.getElementById('editMemberWasap').value = btn.dataset.wasap;
+}
+</script>
 <?php
-
 include 'includes/footer.php';

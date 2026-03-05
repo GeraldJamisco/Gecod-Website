@@ -1,7 +1,9 @@
 <?php
 include 'config.php';
+$pageTitle    = 'Our Road Map | GECOD Initiative Development Plans';
+$pageDesc     = 'Explore GECOD Initiative\'s development road map — our strategic plans, projects, and vision for empowering communities across Uganda.';
+$pageKeywords = 'GECOD road map, development plans Uganda, GECOD projects, community development Uganda, NGO strategy Uganda';
 include 'includes/header.php';
-
 ?>
 
 <!-- Page Header Start -->
@@ -9,11 +11,11 @@ include 'includes/header.php';
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <h2>Popular Causes</h2>
+                <h2>Our Road Map</h2>
             </div>
             <div class="col-12">
-                <a href="">Home</a>
-                <a href="">Causes</a>
+                <a href="index.php">Home</a>
+                <a href="Road Map.php">Road Map</a>
             </div>
         </div>
     </div>
@@ -21,12 +23,12 @@ include 'includes/header.php';
 <!-- Page Header End -->
 
 
-<!-- Service Start -->
+<!-- Programs / Services Start -->
 <div class="service">
     <div class="container">
         <div class="section-header text-center">
-            <p>What We Do?</p>
-            <h2>We believe that we can save more lives with you</h2>
+            <p>How We Help</p>
+            <h2>Our core programs serving communities across Uganda</h2>
         </div>
         <div class="row">
             <div class="col-lg-4 col-md-6">
@@ -36,8 +38,7 @@ include 'includes/header.php';
                     </div>
                     <div class="service-text">
                         <h3>Healthy Food</h3>
-                        <p>From Donations from the local people we move to homes that really have no access to food in
-                            slums of Lyantonde and floody areas</p>
+                        <p>Using donations from generous supporters, we deliver food to families in the slums of Lyantonde and flood-prone areas who have no reliable access to meals.</p>
                     </div>
                 </div>
             </div>
@@ -48,8 +49,7 @@ include 'includes/header.php';
                     </div>
                     <div class="service-text">
                         <h3>Pure Water</h3>
-                        <p>As water is the source of life we provide pure waters to people who have no access to it and
-                            teach them how to get it, with a fresh and safe places</p>
+                        <p>We provide clean, safe water to communities without access and train local people in sustainable water management practices for long-term health.</p>
                     </div>
                 </div>
             </div>
@@ -60,8 +60,7 @@ include 'includes/header.php';
                     </div>
                     <div class="service-text">
                         <h3>Health Care</h3>
-                        <p>With the little funds from the local Area people we have managed to offer primary health care
-                            support to local people who suffer from Malaria, fevers, and first Aid problems</p>
+                        <p>With support from local partners, we provide primary health care to community members suffering from malaria, fevers, and other treatable conditions.</p>
                     </div>
                 </div>
             </div>
@@ -72,8 +71,7 @@ include 'includes/header.php';
                     </div>
                     <div class="service-text">
                         <h3>Primary Education</h3>
-                        <p>Supporting and creating a few seminars for iliterates who haven't had any access to schools
-                            is one of the little things we can do to the community</p>
+                        <p>We run literacy seminars and learning programs for adults and children who have never had access to formal schooling, giving them tools to build a better future.</p>
                     </div>
                 </div>
             </div>
@@ -84,8 +82,7 @@ include 'includes/header.php';
                     </div>
                     <div class="service-text">
                         <h3>Residence Facilities</h3>
-                        <p>Afew homes from the charity givers, have been reserved for those that have lost their homes
-                        </p>
+                        <p>Through the generosity of donors, we have secured temporary shelter for families who have lost their homes to poverty, floods, or displacement.</p>
                     </div>
                 </div>
             </div>
@@ -96,63 +93,84 @@ include 'includes/header.php';
                     </div>
                     <div class="service-text">
                         <h3>Social Care</h3>
-                        <p>With a little help from other non government organisations, we have tried socialisng and
-                            comforting depresing fellows</p>
+                        <p>Working alongside other NGOs, we provide psychosocial support and community counselling to individuals and families experiencing depression and hardship.</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<!-- Service End -->
+<!-- Programs / Services End -->
 
 
-<div class="blog">
+<!-- Road Map Posts Start -->
+<div class="blog" style="background: #f9f9f9; padding: 60px 0;">
     <div class="container">
         <div class="section-header text-center">
-            <p>Popular Causes</p>
-            <h2>Let's know about charity causes around the world</h2>
+            <p>Projects &amp; Initiatives</p>
+            <h2>Our Strategic Direction &amp; Future Goals</h2>
         </div>
         <div class="row">
+            <?php
+            $roadmap = $conn->query("SELECT * FROM gecodroadmap ORDER BY uploadDate DESC");
 
-        <?php
-                    // gett the road map images and there abouts
-                    $roadmap = $conn->query("SELECT * FROM gecodroadmap ORDER BY uploadDate DESC");
+            if ($roadmap && mysqli_num_rows($roadmap) > 0) {
+                while ($rows = mysqli_fetch_array($roadmap)) {
+                    $recordid = htmlspecialchars($rows['recordid']);
+                    $title    = htmlspecialchars($rows['Title']);
+                    $content  = htmlspecialchars($rows['content']);
+                    $img      = htmlspecialchars($rows['image']);
+                    $date     = !empty($rows['uploadDate']) ? date('F j, Y', strtotime($rows['uploadDate'])) : '';
 
-                    while ($rows = mysqli_fetch_array($roadmap)) {
-                        $title = $rows['Title'];
-                        $content = $rows['content'];
-                        $img = $rows['image'];
+                    // Truncate long content
+                    $snippet = (mb_strlen($content) > 130) ? mb_substr($content, 0, 130) . '&hellip;' : $content;
 
-                        echo '<div class="col-lg-4">
-                        <div class="blog-item">
-                            <div class="blog-img">
-                                <img src="img/'.$img.'" alt="Image">
+                    echo '
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="roadmap-card">
+                            <div class="roadmap-img">
+                                <img src="img/' . $img . '" alt="' . $title . '">
+                                ' . (!empty($date) ? '<span class="roadmap-date"><i class="fa fa-calendar-alt"></i> ' . $date . '</span>' : '') . '
                             </div>
-                            <div class="blog-text">
-                                <h3>'.$title.'</h3>
-                                <p>'.$content.'
-                                </p>
+                            <div class="roadmap-body">
+                                <h3 class="roadmap-title">' . $title . '</h3>
+                                <p class="roadmap-snippet">' . $snippet . '</p>
+                            </div>
+                            <div class="roadmap-card-footer">
+                                <a href="viewroadmap.php?id=' . $recordid . '" class="roadmap-readmore">
+                                    Read More <i class="fa fa-arrow-right"></i>
+                                </a>
                             </div>
                         </div>
                     </div>';
-                    }
-                    ?>
-            
-            
+                }
+            } else {
+                echo '<div class="col-12 text-center">
+                    <p class="text-muted">Road map projects and initiatives will appear here as they are added.</p>
+                </div>';
+            }
+            ?>
         </div>
     </div>
 </div>
+<!-- Road Map Posts End -->
 
 
+<!-- Donate CTA Start -->
+<div class="about-donate-cta">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h3>Help Us Deliver on This Road Map</h3>
+                <p>Every dollar you donate funds the programs above &mdash; clean water, education, healthcare, and child sponsorship across Uganda.</p>
+            </div>
+            <div class="col-md-4 text-center text-md-right">
+                <a href="index.php#donate-section" class="btn btn-donate-main"><i class="fa fa-heart"></i> Donate Now</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Donate CTA End -->
 
 
-
-
-
-
-
-
-<?php
-include 'includes/footer.php';
-        ?>
+<?php include 'includes/footer.php'; ?>

@@ -1,0 +1,66 @@
+After uploading to live server — submit to Google
+Go to Google Search Console → Add your site
+Verify ownership (they'll give you an HTML file to upload or a meta tag to add)
+Submit your sitemap URL: https://gecod.flowpesa.com/sitemap.xml
+Google will start indexing within days. Results typically appear in search within 2–4 weeks.
+
+
+
+You understand the problem exactly right — and it's a real one. Western donors see PayPal and click without thinking. They see Flutterwave and hesitate. That trust gap costs donations.
+
+Here's the full realistic picture:
+
+---
+
+## The Solution: PayPal + Wise (the legal bridge)
+
+Uganda can't withdraw from PayPal directly to a Uganda bank — but **Wise (formerly TransferWise)** solves this completely.
+
+```
+Western Donor → PayPal → Wise virtual USD account → Uganda bank account
+                                    ↑
+                         (Wise provides a real US routing 
+                          number that PayPal accepts)
+```
+
+**How to set it up:**
+1. Create a **Wise business account** at wise.com → it gives you a real US bank account number (routing + account)
+2. In PayPal Business settings → link that Wise US account as your bank
+3. PayPal thinks it's withdrawing to a US bank → it works
+4. Wise receives the USD and transfers to GECOD's Uganda bank in UGX (or holds USD)
+
+Wise supports Uganda withdrawals and is used by thousands of African NGOs and businesses. It's completely legal.
+
+---
+
+## About the Kenya PayPal idea
+
+I'd advise against it. Opening a PayPal account with a Kenya number for a Uganda-registered NGO is misrepresentation — PayPal can freeze the account and hold the funds if they detect the mismatch. That's a risk you don't want with donor money.
+
+---
+
+## Recommended Setup: Two payment methods
+
+| Method | Who uses it | Trust level | Integration |
+|--------|-------------|-------------|-------------|
+| **PayPal** (via Wise withdrawal) | Western donors — USA, UK, Europe | ⭐⭐⭐⭐⭐ | Already on site |
+| **Flutterwave** | Local Uganda donors, African diaspora | ⭐⭐⭐⭐ (in Africa) | To be added |
+
+Both buttons on the donation section — donor chooses.
+
+---
+
+## Action plan
+
+**This week — do these first:**
+1. Create **Wise business account** → get your US virtual bank account number
+2. In **PayPal Business** → add that Wise account as your withdrawal bank
+3. Test a small withdrawal ($1) to confirm it flows through
+4. Create **Flutterwave account** for the organisation
+
+**Then come back here and I will:**
+- Wire the Flutterwave payment button into the donate section alongside PayPal
+- Build the webhook that saves every payment (PayPal or Flutterwave) to the database automatically
+- Connect it to the sponsorship audit page so both payment types show up
+
+The PayPal button already on the site is fine to leave — once the Wise account is linked, every PayPal donation will successfully reach GECOD's Uganda bank. That's the missing piece.

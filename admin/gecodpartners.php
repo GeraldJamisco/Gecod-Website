@@ -108,20 +108,24 @@ include 'includes/sidebar.php';
                                 $partnerlogo = $rows['partnerlogo'];
                                 $deleteid = $rows['recordid'];
 
+                                $safeNames = htmlspecialchars($partnerNames, ENT_QUOTES);
                                 echo '
-                               
                                     <tr>
                                     <td>'.$x++.'</td>
-                                    <td>'.$partnerNames.'</td>
-                                    <td> <img class="img-fluid" src="../img/sponsors/'.$partnerlogo.'" alt=""></td>
-                                    <td><form action="deletepartner.php?partnerid='.$deleteid.'" method="post">
-                                    <input type="submit" value="DELETE" class="btn btn-danger" name="deletepartner">
-                                </form></td>
-
-                                </tr>
-                                
-                              
-                                  ';
+                                    <td>'.$safeNames.'</td>
+                                    <td><img class="img-fluid" style="max-width:80px;" src="../img/sponsors/'.$partnerlogo.'" alt=""></td>
+                                    <td>
+                                        <button type="button" class="btn btn-warning btn-sm mr-1"
+                                            data-toggle="modal" data-target="#editPartnerModal"
+                                            data-id="'.$deleteid.'"
+                                            data-names="'.$safeNames.'"
+                                            onclick="fillEditPartner(this)">EDIT</button>
+                                        <form style="display:inline" action="deletepartner.php?partnerid='.$deleteid.'" method="post"
+                                              onsubmit="return confirm(\'Delete this partner? This cannot be undone.\')">
+                                            <input type="submit" value="DELETE" class="btn btn-danger btn-sm" name="deletepartner">
+                                        </form>
+                                    </td>
+                                    </tr>';
                             }
 
 
@@ -191,6 +195,36 @@ include 'includes/sidebar.php';
 
 
 
+<!-- Edit Partner Modal -->
+<div class="modal fade" id="editPartnerModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Partner</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <form action="updatepartner.php" method="POST" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <input type="hidden" name="record_id" id="editPartnerId">
+                    <div class="form-group"><label>Partner Name</label>
+                        <input type="text" class="form-control" name="partnernames" id="editPartnerNames" required></div>
+                    <div class="form-group"><label>New Logo (optional)</label>
+                        <input type="file" class="form-control-file" name="partnerlogo" accept="image/*"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary" name="update_partner">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+function fillEditPartner(btn) {
+    document.getElementById('editPartnerId').value    = btn.dataset.id;
+    document.getElementById('editPartnerNames').value = btn.dataset.names;
+}
+</script>
 <?php
 include 'includes/footer.php';
 ?>

@@ -127,22 +127,34 @@ include 'includes/sidebar.php';
                                 $orphimg = $rows['orphanImage'];
                                 $orphangender = $rows['orphanGender'];
 
+                  
+                                $safeNames  = htmlspecialchars($orphnames, ENT_QUOTES);
+                                $safeGender = htmlspecialchars($orphangender, ENT_QUOTES);
+                                $safeInfo   = htmlspecialchars($orphinfo, ENT_QUOTES);
+                                $safeDob    = htmlspecialchars($rows['orphanBirthday'] ?? '', ENT_QUOTES);
+
                                 echo '
-                               
                                     <tr>
                                     <td>'.$x++.'</td>
-                                    <td>'.$orphnames.'</td>
-                                    <td>'.$orphangender.'</td>
-                                    <td>'.$orphinfo.'</td>
-                                    <td> <img class="img-fluid" src="../img/beneficiaries/'.$orphimg.'" alt=""></td>
-                                    <td><form action="deleteorphan.php?orphanid='.$orphId.'" method="post">
-                                    <input type="submit" value="DELETE" class="btn btn-danger" name="deleteorphan">
-                                </form></td>
-
-                                </tr>
-                                
-                              
-                                  ';
+                                    <td>'.$safeNames.'</td>
+                                    <td>'.$safeGender.'</td>
+                                    <td>'.mb_substr($safeInfo, 0, 80).'...</td>
+                                    <td><img class="img-fluid" style="max-width:60px;" src="../img/beneficiaries/'.$orphimg.'" alt=""></td>
+                                    <td>
+                                        <button type="button" class="btn btn-warning btn-sm mr-1"
+                                            data-toggle="modal" data-target="#editBenefModal"
+                                            data-id="'.$orphId.'"
+                                            data-names="'.$safeNames.'"
+                                            data-dob="'.$safeDob.'"
+                                            data-gender="'.$safeGender.'"
+                                            data-bio="'.$safeInfo.'"
+                                            onclick="fillEditBenef(this)">EDIT</button>
+                                        <form style="display:inline" action="deleteorphan.php?orphanid='.$orphId.'" method="post"
+                                              onsubmit="return confirm(\'Delete this beneficiary? This cannot be undone.\')">
+                                            <input type="submit" value="DELETE" class="btn btn-danger btn-sm" name="deleteorphan">
+                                        </form>
+                                    </td>
+                                    </tr>';
                             }
 
 
@@ -211,6 +223,49 @@ include 'includes/sidebar.php';
 
 
 
+
+<!-- Edit Beneficiary Modal -->
+<div class="modal fade" id="editBenefModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Beneficiary</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <form action="updatebenefic.php" method="POST" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <input type="hidden" name="orphanid" id="editBenefId">
+                    <div class="form-group"><label>Names</label>
+                        <input type="text" class="form-control" name="benefNames" id="editBenefNames" required></div>
+                    <div class="form-group"><label>Birthday</label>
+                        <input type="date" class="form-control" name="dob" id="editBenefDob"></div>
+                    <div class="form-group"><label>Gender</label>
+                        <select name="gender" class="form-control" id="editBenefGender">
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select></div>
+                    <div class="form-group"><label>Bio</label>
+                        <textarea name="benefBio" class="form-control" rows="4" id="editBenefBio"></textarea></div>
+                    <div class="form-group"><label>New Photo (optional &mdash; leave blank to keep current)</label>
+                        <input type="file" class="form-control-file" name="profavatar" accept="image/*"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary" name="update_beneficiary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+function fillEditBenef(btn) {
+    document.getElementById(' + chr(39) + 'editBenefId' + chr(39) + ').value     = btn.dataset.id;
+    document.getElementById(' + chr(39) + 'editBenefNames' + chr(39) + ').value  = btn.dataset.names;
+    document.getElementById(' + chr(39) + 'editBenefDob' + chr(39) + ').value    = btn.dataset.dob;
+    document.getElementById(' + chr(39) + 'editBenefGender' + chr(39) + ').value = btn.dataset.gender;
+    document.getElementById(' + chr(39) + 'editBenefBio' + chr(39) + ').value    = btn.dataset.bio;
+}
+</script>
 
 <?php
 

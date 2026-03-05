@@ -1,65 +1,40 @@
 <?php
 include 'config.php';
+include 'sessionizr.php';
 
 if (isset($_POST['add_new_roadmap'])) {
-    $rdtitle = $conn->real_escape_string($_POST['roadmaptitle']);
-    $rdcontent = $conn->real_escape_string($_POST['content']);
-    
-    // echo $bdwasap;
+    $rdtitle   = $conn->real_escape_string($_POST['roadmaptitle'] ?? '');
+    $rdcontent = $conn->real_escape_string($_POST['content']      ?? '');
 
-  // Generate Key
-  function random_strings($length_of_string){
-    $str_result = '1234567890';
-    return substr(str_shuffle($str_result), 0 , $length_of_string);
-}
-$r_string = random_strings(4);
+    $allowed   = ['jpg','jpeg','png','gif','webp'];
+    $fileField = 'profavatar';
 
-$timestamps = date('U');
+    if (!empty($_FILES[$fileField]['name']) && basename($_FILES[$fileField]['name']) !== '') {
+        $ext = strtolower(pathinfo($_FILES[$fileField]['name'], PATHINFO_EXTENSION));
 
-
-     //    upload student pic
-     if (basename($_FILES["profavatar"]["name"] !== "")) {
-        //Upload Profile Photo Together With Profile
-        $target_dir = '../img/';
-        $target_file = $target_dir . basename($_FILES["profavatar"]["name"]);
-        $uploadOk = 1;
-        $FileType = pathinfo($target_file, PATHINFO_EXTENSION);
-
-        // Check file size max(7mbs)
-        if ($_FILES["profavatar"]["size"] > 7000000) {
-        echo'<div style = "background-color: #263b47; color: #f1a804; font-family: arial; font-weight: bold; text-align: center; padding: 20px;"> The file is too large. Photo should not exceed 7mbs.</div>';
-        $uploadOk = 0;
+        if (!in_array($ext, $allowed)) {
+            die('<div class="alert alert-danger">Invalid file type. Allowed: jpg, jpeg, png, gif, webp.</div>');
         }
-        
-        // Check if $uploadOk is set to 0 by an error
-        if (move_uploaded_file($_FILES["profavatar"]["tmp_name"], "../img/".$r_string." ".$timestamps.".".$FileType)) {  
-            // $conn->query("INSERT INTO gecodroadmap(Title, Content, image)VALUES('$rdtitle','$rdcontent', '$r_string $timestamps.$FileType')");
-            if ($conn->query("INSERT INTO gecodroadmap(Title, Content, image)VALUES('$rdtitle','$rdcontent', '$r_string $timestamps.$FileType')") === TRUE) {
-    // Insertion successful
-} else {
-    // Handle SQL error
-    echo "Error: " . $conn->error;
-}
-    
+        if ($_FILES[$fileField]['size'] > 7000000) {
+            die('<div class="alert alert-danger">File too large. Max 7 MB.</div>');
         }
 
+        $r_string  = substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'), 0, 6);
+        $timestamp = date('U');
+        $filename  = $conn->real_escape_string($r_string . ' ' . $timestamp . '.' . $ext);
 
-
-
-
-            ?>
-            <script type="text/javascript">
-            function Redirect() {
-                window.location = "roadMap.php";
+        if (move_uploaded_file($_FILES[$fileField]['tmp_name'], '../img/' . $filename)) {
+            if ($conn->query("INSERT INTO gecodroadmap(Title, content, image) VALUES('$rdtitle','$rdcontent','$filename')")) {
+                header('Location: roadMap.php');
+                exit;
+            } else {
+                echo '<div class="alert alert-danger">Database error: ' . htmlspecialchars($conn->error) . '</div>';
             }
-            document.write(
-                '<p class = "text-center" style = "margin-top: 15px; padding: 5px 10px; border-radius: 3px;"><span style = "color: #263b47; background-color: #f1a804; padding: 5px 20px; border-radius: 25px; font-size: 12px;">Road Map sent or Uploaded susccessfuly to GECOD Initiative\'s website. Redirecting ...</span></p>'
-            );
-            setTimeout('Redirect()', 5000);
-            </script>
-            <?php
         } else {
-        echo '<div style = "background-color: #263b47; color: #f1a804; font-family: arial; font-weight: bold; text-align: center; padding: 20px;">There was an error while uploading your photo and content.</div>';
+            echo '<div class="alert alert-danger">Error uploading image.</div>';
         }
+    } else {
+        echo '<div class="alert alert-danger">Please select an image.</div>';
+    }
 }
 ?>

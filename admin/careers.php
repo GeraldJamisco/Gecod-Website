@@ -80,7 +80,14 @@ include 'includes/sidebar.php';
                                                 <option value=""></option>
                                                 <option value="Full Time">Full Time</option>
                                                 <option value="Part Time">Part Time</option>
+                                                <option value="Volunteer">Volunteer</option>
+                                                <option value="Internship">Internship</option>
                                             </select>
+                                        </div>
+                                        <!-- Working Hours -->
+                                        <div class="form-group">
+                                            <P class="text-muted">Working Hours (optional)</P>
+                                            <input type="text" class="form-control input-default" placeholder="e.g. Monday – Friday, 8AM – 5PM" name="workingHours">
                                         </div>
                                         <!-- Contacts / How to apply  -->
                                         <div class="form-group">
@@ -147,27 +154,57 @@ include 'includes/sidebar.php';
                             $members = $conn->query("SELECT * FROM jobcareer");
                             $x = 1;
                             while ($rows = mysqli_fetch_array($members)) {
-                                $orphId = $rows['recordid'];
-                                $jobTitle = $rows['job_title'];
-                                $jobTitle = $rows['job_title'];
+                                $orphId      = $rows['recordid'];
+                                $jobTitle    = $rows['job_title'];
                                 $jobDescript = $rows['JobDescription'];
-                                $jobBanner = $rows['imgBanner'];
+                                $jobBanner   = $rows['imgBanner'];
+                                $jobPosition = $rows['position'];
+                                $jobLocation = $rows['location'];
+                                $jobQualif   = $rows['qualifications'];
+                                $jobExperie  = $rows['experience'];
+                                $jobContacts = $rows['contacts'];
+                                $jobDeadline = $rows['deadlineDate'];
+                                $jobHiring   = $rows['hiringType'];
+                                $jobHours    = $rows['workingHours'] ?? '';
+
+                                $safeTitle    = htmlspecialchars($jobTitle,    ENT_QUOTES);
+                                $safeDescript = htmlspecialchars($jobDescript, ENT_QUOTES);
+                                $safePosition = htmlspecialchars($jobPosition, ENT_QUOTES);
+                                $safeLocation = htmlspecialchars($jobLocation, ENT_QUOTES);
+                                $safeQualif   = htmlspecialchars($jobQualif,   ENT_QUOTES);
+                                $safeExperie  = htmlspecialchars($jobExperie,  ENT_QUOTES);
+                                $safeContacts = htmlspecialchars($jobContacts, ENT_QUOTES);
+                                $safeDeadline = htmlspecialchars($jobDeadline, ENT_QUOTES);
+                                $safeHiring   = htmlspecialchars($jobHiring,   ENT_QUOTES);
+                                $safeHours    = htmlspecialchars($jobHours,    ENT_QUOTES);
 
                                 echo '
-                               
                                     <tr>
                                     <td>'.$x++.'</td>
-                                    <td>'.$jobTitle.'</td>
-                                    <td>'.$jobDescript.'</td>
-                                    <td> <img class="img-fluid" src="../img/job_banner_images/'.$jobBanner.'" alt=""></td>
-                                    <td><form action="deletejob.php?jobid='.$orphId.'" method="post">
-                                    <input type="submit" value="DELETE" class="btn btn-danger" name="deleteJob">
-                                </form></td>
-
-                                </tr>
-                                
-                              
-                                  ';
+                                    <td>'.$safeTitle.'</td>
+                                    <td>'.mb_substr($safeDescript,0,80).'...</td>
+                                    <td><img class="img-fluid" style="max-width:60px;" src="../img/job_banner_images/'.$jobBanner.'" alt=""></td>
+                                    <td>
+                                        <button type="button" class="btn btn-warning btn-sm mr-1"
+                                            data-toggle="modal" data-target="#editJobModal"
+                                            data-id="'.$orphId.'"
+                                            data-title="'.$safeTitle.'"
+                                            data-descript="'.$safeDescript.'"
+                                            data-position="'.$safePosition.'"
+                                            data-location="'.$safeLocation.'"
+                                            data-qualif="'.$safeQualif.'"
+                                            data-experie="'.$safeExperie.'"
+                                            data-contacts="'.$safeContacts.'"
+                                            data-deadline="'.$safeDeadline.'"
+                                            data-hiring="'.$safeHiring.'"
+                                            data-hours="'.$safeHours.'"
+                                            onclick="fillEditJob(this)">EDIT</button>
+                                        <form style="display:inline" action="deletejob.php?jobid='.$orphId.'" method="post"
+                                              onsubmit="return confirm(\'Delete this job? This cannot be undone.\')">
+                                            <input type="submit" value="DELETE" class="btn btn-danger btn-sm" name="deleteJob">
+                                        </form>
+                                    </td>
+                                    </tr>';
                             }
 
 
@@ -193,8 +230,71 @@ include 'includes/sidebar.php';
 </div>
 
 
+<!-- Edit Job Modal -->
+<div class="modal fade" id="editJobModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Job</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <form action="updatejob.php" method="POST" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <input type="hidden" name="record_id" id="editJobId">
+                    <div class="form-group"><label>Job Title</label>
+                        <input type="text" class="form-control" name="jobTitle" id="editJobTitle" required></div>
+                    <div class="form-group"><label>Description</label>
+                        <textarea name="jobDescript" class="form-control" rows="4" id="editJobDesc"></textarea></div>
+                    <div class="form-group"><label>Position</label>
+                        <input type="text" class="form-control" name="jobPosition" id="editJobPos"></div>
+                    <div class="form-group"><label>Location</label>
+                        <input type="text" class="form-control" name="jobLocation" id="editJobLoc"></div>
+                    <div class="form-group"><label>Qualifications</label>
+                        <textarea name="jobQualific" class="form-control" rows="3" id="editJobQualif"></textarea></div>
+                    <div class="form-group"><label>Experience</label>
+                        <textarea name="jobExperie" class="form-control" rows="3" id="editJobExp"></textarea></div>
+                    <div class="form-group"><label>How to Apply / Contacts</label>
+                        <textarea name="jobsend" class="form-control" rows="3" id="editJobContacts"></textarea></div>
+                    <div class="row">
+                        <div class="col-md-6 form-group"><label>Deadline Date</label>
+                            <input type="date" class="form-control" name="dld" id="editJobDeadline"></div>
+                        <div class="col-md-6 form-group"><label>Hiring Type</label>
+                            <select name="hiringType" class="form-control" id="editJobHiring">
+                                <option value="Full Time">Full Time</option>
+                                <option value="Part Time">Part Time</option>
+                                <option value="Volunteer">Volunteer</option>
+                                <option value="Internship">Internship</option>
+                            </select></div>
+                    </div>
+                    <div class="form-group"><label>Working Hours</label>
+                        <input type="text" class="form-control" name="workingHours" id="editJobHours" placeholder="e.g. Mon–Fri 8AM–5PM"></div>
+                    <div class="form-group"><label>New Banner Image (optional)</label>
+                        <input type="file" class="form-control-file" name="profavatar" accept="image/*"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary" name="update_job">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+function fillEditJob(btn) {
+    document.getElementById('editJobId').value       = btn.dataset.id;
+    document.getElementById('editJobTitle').value    = btn.dataset.title;
+    document.getElementById('editJobDesc').value     = btn.dataset.descript;
+    document.getElementById('editJobPos').value      = btn.dataset.position;
+    document.getElementById('editJobLoc').value      = btn.dataset.location;
+    document.getElementById('editJobQualif').value   = btn.dataset.qualif;
+    document.getElementById('editJobExp').value      = btn.dataset.experie;
+    document.getElementById('editJobContacts').value = btn.dataset.contacts;
+    document.getElementById('editJobDeadline').value = btn.dataset.deadline;
+    document.getElementById('editJobHiring').value   = btn.dataset.hiring;
+    document.getElementById('editJobHours').value    = btn.dataset.hours;
+}
+</script>
 <?php
-
 include 'includes/footer.php';
 
 ?>

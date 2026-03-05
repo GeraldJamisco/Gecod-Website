@@ -62,32 +62,44 @@ include 'config.php';
 
 
 if (isset($_POST['submit'])) {
-    
-$mmails = $_POST['email'];
-$pwd = $_POST['password'];
+    $mmails = $conn->real_escape_string(trim($_POST['email'] ?? ''));
+    $pwd    = trim($_POST['password'] ?? '');
 
+    if (empty($mmails) || empty($pwd)) {
+        echo '<div class="container"><div class="alert alert-danger mt-3">Please enter your email and password.</div></div>';
+    } else {
+        // Fetch by email only so we can do proper password comparison
+        $send = $conn->query("SELECT * FROM gecodusers WHERE gecodUname='$mmails'");
 
-$salted_password = md5($pwd);
+        if ($send && mysqli_num_rows($send) > 0) {
+            $user        = $send->fetch_assoc();
+            $storedHash  = $user['gecodUpassword'];
+            $authenticated = false;
 
-$send = $conn->query("SELECT * FROM gecodusers WHERE gecodUname = '$mmails' AND gecodUpassword = '$salted_password'");
-    
-if (mysqli_num_rows($send) == 0) {
-    echo '
-    <div class="container">
-    <div class="justify-content-center">
-    <div class="card-content">
-    <div class="alert alert-danger">Wrong Credentials Please enter Again to login!</div>
-    </div>
-    </div>
-    </div>';
-}else {
-    //   header("Location: dashboard.php");
-    $_SESSION["gecodmail"] = $mmails;
-    $_SESSION["gecodpassword"] = $salted_password;
-    echo "<script type='text/javascript'> window.location.href='dashboard.php'</script>";
-    // echo 'jamisco is great';
-}
+            // 1. Try modern bcrypt first
+            if (password_verify($pwd, $storedHash)) {
+                $authenticated = true;
+            }
+            // 2. Legacy MD5 fallback — auto-upgrade to bcrypt on success
+            elseif ($storedHash === md5($pwd)) {
+                $authenticated = true;
+                $newHash = $conn->real_escape_string(password_hash($pwd, PASSWORD_BCRYPT));
+                $conn->query("UPDATE gecodusers SET gecodUpassword='$newHash' WHERE gecodUname='$mmails'");
+                $storedHash = $newHash;
+            }
 
+            if ($authenticated) {
+                session_regenerate_id(true);
+                $_SESSION['gecodmail']     = $mmails;
+                $_SESSION['gecodpassword'] = $storedHash;
+                echo "<script>window.location.href='dashboard.php';</script>";
+            } else {
+                echo '<div class="container"><div class="alert alert-danger mt-3">Wrong credentials. Please try again.</div></div>';
+            }
+        } else {
+            echo '<div class="container"><div class="alert alert-danger mt-3">Wrong credentials. Please try again.</div></div>';
+        }
+    }
 }
 
 ?>

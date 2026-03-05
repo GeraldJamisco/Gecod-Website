@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+
+# Block admin and server-side includes from indexing
+Disallow: /admin/
+Disallow: /includes/
+Disallow: /sendmail.php
+Disallow: /checkout-cart.php
+
+# Sitemap location (update domain if needed)
+Sitemap: https://gecod.flowpesa.com/sitemap.xml

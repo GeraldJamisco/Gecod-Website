@@ -156,25 +156,36 @@ include 'includes/sidebar.php';
                                 $eventlocation = $rows['eventLocation'];
                                 $eventimage = $rows['eventImageLogo'];
 
+                                $safeTitle    = htmlspecialchars($eventTitle, ENT_QUOTES);
+                                $safeAbout    = htmlspecialchars($eventAbout, ENT_QUOTES);
+                                $safeLocation = htmlspecialchars($eventlocation, ENT_QUOTES);
                                 echo '
-                               
                                     <tr>
                                     <td>'.$x++.'</td>
-                                    <td>'.$eventTitle.'</td>
-                                    <td>'.$eventAbout.'</td>
+                                    <td>'.$safeTitle.'</td>
+                                    <td>'.mb_substr($safeAbout,0,60).'...</td>
                                     <td>'.$eventdate.'</td>
                                     <td>'.$eventtimeStart.'</td>
                                     <td>'.$eventtimeend.'</td>
-                                    <td>'.$eventlocation.'</td>
-                                    <td> <img class="img-fluid" src="../img/events/'.$eventimage.'" alt=""></td>
-                                    <td><form action="deleteevent.php?eventid='.$deleteid.'" method="post">
-                                    <input type="submit" value="DELETE" class="btn btn-danger" name="deleteevent">
-                                </form></td>
-
-                                </tr>
-                                
-                              
-                                  ';
+                                    <td>'.$safeLocation.'</td>
+                                    <td><img class="img-fluid" style="max-width:60px;" src="../img/events/'.$eventimage.'" alt=""></td>
+                                    <td>
+                                        <button type="button" class="btn btn-warning btn-sm mr-1"
+                                            data-toggle="modal" data-target="#editEventModal"
+                                            data-id="'.$deleteid.'"
+                                            data-title="'.$safeTitle.'"
+                                            data-about="'.$safeAbout.'"
+                                            data-date="'.$eventdate.'"
+                                            data-tstart="'.$eventtimeStart.'"
+                                            data-tend="'.$eventtimeend.'"
+                                            data-location="'.$safeLocation.'"
+                                            onclick="fillEditEvent(this)">EDIT</button>
+                                        <form style="display:inline" action="deleteevent.php?eventid='.$deleteid.'" method="post"
+                                              onsubmit="return confirm(\'Delete this event? This cannot be undone.\')">
+                                            <input type="submit" value="DELETE" class="btn btn-danger btn-sm" name="deleteevent">
+                                        </form>
+                                    </td>
+                                    </tr>';
                             }
 
 
@@ -249,6 +260,53 @@ include 'includes/sidebar.php';
 
 
 
+<!-- Edit Event Modal -->
+<div class="modal fade" id="editEventModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Event</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <form action="updateevent.php" method="POST" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <input type="hidden" name="record_id" id="editEvId">
+                    <div class="form-group"><label>Title</label>
+                        <input type="text" class="form-control" name="title" id="editEvTitle" required></div>
+                    <div class="form-group"><label>About</label>
+                        <textarea name="about" class="form-control" rows="3" id="editEvAbout"></textarea></div>
+                    <div class="form-group"><label>Date</label>
+                        <input type="date" class="form-control" name="datec" id="editEvDate"></div>
+                    <div class="row">
+                        <div class="col-6 form-group"><label>Time Start</label>
+                            <input type="time" class="form-control" name="timestart" id="editEvTstart"></div>
+                        <div class="col-6 form-group"><label>Time End</label>
+                            <input type="time" class="form-control" name="timeend" id="editEvTend"></div>
+                    </div>
+                    <div class="form-group"><label>Location District</label>
+                        <input type="text" class="form-control" name="location" id="editEvLocation" maxlength="15"></div>
+                    <div class="form-group"><label>New Banner (optional)</label>
+                        <input type="file" class="form-control-file" name="eventBanner" accept="image/*"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary" name="update_event">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+function fillEditEvent(btn) {
+    document.getElementById('editEvId').value       = btn.dataset.id;
+    document.getElementById('editEvTitle').value    = btn.dataset.title;
+    document.getElementById('editEvAbout').value    = btn.dataset.about;
+    document.getElementById('editEvDate').value     = btn.dataset.date;
+    document.getElementById('editEvTstart').value   = btn.dataset.tstart;
+    document.getElementById('editEvTend').value     = btn.dataset.tend;
+    document.getElementById('editEvLocation').value = btn.dataset.location;
+}
+</script>
                             <?php
 include 'includes/footer.php';
 ?>

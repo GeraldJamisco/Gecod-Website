@@ -1,5 +1,8 @@
 <?php
 include 'config.php';
+$pageTitle    = 'GECOD Initiative | Empowering Communities in Uganda';
+$pageDesc     = 'GECOD Initiative is a youth-led non-profit in Uganda empowering vulnerable communities through education, health support, and economic empowerment. Sponsor a child or donate today.';
+$pageKeywords = 'GECOD Initiative Uganda, donate Uganda, sponsor child Uganda, NGO Uganda, community empowerment, Lyantonde charity';
 include 'includes/header.php';
 
 ?>
@@ -404,7 +407,7 @@ include 'includes/header.php';
                 <div class="facts-item">
                     <i class="flaticon-charity"></i>
                     <div class="facts-text">
-                        <h3 class="facts-plus" data-toggle="counter-up">10</h3>
+                        <h3 class="facts-plus" data-toggle="counter-up">400</h3>
                         <p>Volunteers</p>
                     </div>
                 </div>
@@ -670,7 +673,7 @@ while ($eventssoon = mysqli_fetch_array($twoevents)) {
     <div class="container">
         <div class="section-header text-center">
             <p>Meet Our Team</p>
-            <h2>Awesome guys behind our charity activities</h2>
+            <h2>Meet the People Behind Our Mission</h2>
         </div>
         <div class="row">
 
@@ -682,7 +685,7 @@ while ($eventssoon = mysqli_fetch_array($twoevents)) {
                         <img src="img/CEOGecod.png" alt="Team Image">
                     </div>
                     <div class="team-text">
-                        <h2>Gordan Sabiiti</h2>
+                        <h4>Gordan Sabiiti</h4>
                         <p>Founder & CEO</p>
                         <div class="team-social">
                             <a href="" target="_blank" rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>
@@ -699,7 +702,7 @@ while ($eventssoon = mysqli_fetch_array($twoevents)) {
                         <img src="img/leilah ppt.jpg" alt="Team Image">
                     </div>
                     <div class="team-text">
-                        <h2>Nakacwa Leilah</h2>
+                        <h4>Nakacwa Leilah</h4>
                         <p>Programs Manager</p>
                         <div class="team-social">
                             <a href="" target="_blank" rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>
@@ -716,7 +719,7 @@ while ($eventssoon = mysqli_fetch_array($twoevents)) {
                         <img src="img/Dr Mujibu Nkambo.jpeg" alt="Team Image">
                     </div>
                     <div class="team-text">
-                        <h2>Dr Mujibu Nkambo</h2>
+                        <h4>Dr Mujibu Nkambo</h4>
                         <p>Senior Projects Consultant</p>
                         <div class="team-social">
                             <a href="" target="_blank" rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>
@@ -733,7 +736,7 @@ while ($eventssoon = mysqli_fetch_array($twoevents)) {
                         <img src="img/1456 1671293566.png" alt="Team Image">
                     </div>
                     <div class="team-text">
-                        <h2>Mutesi Merabu </h2>
+                        <h4>Mutesi Merabu</h4>
                         <p>Board Chairperson</p>
                         <div class="team-social">
                             <a href="" target="_blank" rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>

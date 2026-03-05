@@ -86,22 +86,28 @@ include 'includes/sidebar.php';
                                 $rdimg = $rows['image'];
                                 $deleteid = $rows['recordid'];
 
+                                $safeTitle   = htmlspecialchars($rdTitle, ENT_QUOTES);
+                                $safeContent = htmlspecialchars($rdContent, ENT_QUOTES);
                                 echo '
                                 <div class="col-md-6 col-lg-6">
                                 <div class="card">
                                     <img class="img-fluid" src="../img/'.$rdimg.'" alt="">
                                     <div class="card-body">
-                                        <h5 class="card-title">'.$rdTitle.'</h5>
-                                        <p class="">'.$rdContent.'</p>
-                                        
-                                    <form action="deleteroadmap.php?deleteid='.$deleteid.'" method="post">
-                                        <button type="button submit" class="btn mb-1 btn-outline-danger" name="roadmapdeleteId">DELETE</button>
-                                    </form>
-                                        
+                                        <h5 class="card-title">'.$safeTitle.'</h5>
+                                        <p>'.mb_substr($safeContent, 0, 120).'...</p>
+                                        <button type="button" class="btn btn-warning btn-sm mr-1 mb-1"
+                                            data-toggle="modal" data-target="#editRoadmapModal"
+                                            data-id="'.$deleteid.'"
+                                            data-title="'.$safeTitle.'"
+                                            data-content="'.$safeContent.'"
+                                            onclick="fillEditRoadmap(this)">EDIT</button>
+                                        <form style="display:inline" action="deleteroadmap.php?deleteid='.$deleteid.'" method="post"
+                                              onsubmit="return confirm(\'Delete this post? This cannot be undone.\')">
+                                            <button type="submit" class="btn btn-outline-danger btn-sm mb-1">DELETE</button>
+                                        </form>
                                     </div>
                                 </div>
-                            </div>
-                            <!-- End Col -->';
+                            </div>';
                             }
 
 
@@ -164,6 +170,39 @@ include 'includes/sidebar.php';
 
 
 
-<?php
+<!-- Edit Road Map Modal -->
+<div class="modal fade" id="editRoadmapModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Road Map Post</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <form action="updateroadmap.php" method="POST" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <input type="hidden" name="record_id" id="editRmId">
+                    <div class="form-group"><label>Title</label>
+                        <input type="text" class="form-control" name="rdtitle" id="editRmTitle" required></div>
+                    <div class="form-group"><label>Content</label>
+                        <textarea name="rdcontent" class="form-control" rows="6" id="editRmContent"></textarea></div>
+                    <div class="form-group"><label>New Image (optional — leave blank to keep current)</label>
+                        <input type="file" class="form-control-file" name="profavatar" accept="image/*"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary" name="update_roadmap">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+function fillEditRoadmap(btn) {
+    document.getElementById('editRmId').value      = btn.dataset.id;
+    document.getElementById('editRmTitle').value   = btn.dataset.title;
+    document.getElementById('editRmContent').value = btn.dataset.content;
+}
+</script>
 
+<?php
 include 'includes/footer.php';

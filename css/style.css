@@ -2629,3 +2629,283 @@ a:focus {
     margin-bottom: 0;
     font-size: 1rem;
 }
+
+/* ============================================================
+   BENEFICIARIES / ORPHANS PAGE — Card Listing
+   ============================================================ */
+.beneficiaries-section { padding: 60px 0; background: #f9f9f9; }
+.sponsor-intro-text { font-size: 1.05rem; color: #555; line-height: 1.7; }
+
+.beneficiary-card {
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.10);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.beneficiary-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 32px rgba(0,0,0,0.16);
+}
+.beneficiary-img-wrap {
+    position: relative;
+    overflow: hidden;
+    height: 240px;
+}
+.beneficiary-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+}
+.beneficiary-card:hover .beneficiary-img-wrap img { transform: scale(1.05); }
+
+.awaiting-badge {
+    position: absolute;
+    top: 12px; right: 12px;
+    background: #f77f00;
+    color: #fff;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+.awaiting-badge i { margin-right: 3px; font-size: 0.65rem; }
+
+.gender-badge {
+    position: absolute;
+    top: 12px; left: 12px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.badge-boy  { background: #3498db; color: #fff; }
+.badge-girl { background: #e91e8c; color: #fff; }
+
+.beneficiary-body { padding: 18px 20px 10px; flex: 1; }
+.beneficiary-name { font-size: 1.15rem; font-weight: 700; color: #222; margin-bottom: 8px; }
+.beneficiary-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    font-size: 0.82rem;
+    color: #888;
+    margin-bottom: 10px;
+}
+.beneficiary-meta i { color: #f77f00; margin-right: 4px; }
+
+.beneficiary-snippet {
+    font-size: 0.88rem;
+    color: #666;
+    font-style: italic;
+    line-height: 1.55;
+    margin-bottom: 12px;
+    border-left: 3px solid #f77f00;
+    padding-left: 10px;
+}
+.beneficiary-cost {
+    font-size: 0.9rem;
+    color: #333;
+    background: #fff7ee;
+    border: 1px solid #ffe0b2;
+    border-radius: 6px;
+    padding: 8px 12px;
+    margin-top: 8px;
+}
+.beneficiary-cost i { color: #e53935; margin-right: 5px; }
+.beneficiary-cost strong { color: #f77f00; font-size: 1rem; }
+
+.beneficiary-footer { padding: 14px 20px; border-top: 1px solid #f0f0f0; }
+.btn-choose-me {
+    display: block;
+    text-align: center;
+    background: linear-gradient(135deg, #f77f00, #d62828);
+    color: #fff !important;
+    font-weight: 700;
+    font-size: 0.95rem;
+    padding: 12px 0;
+    border-radius: 6px;
+    text-decoration: none !important;
+    letter-spacing: 0.5px;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.btn-choose-me:hover { opacity: 0.92; transform: scale(1.02); color: #fff !important; }
+.btn-choose-me i { margin-right: 6px; }
+
+/* ============================================================
+   CHILD PROFILE PAGE — vieworphandetails.php
+   ============================================================ */
+.child-profile-left { padding-top: 10px; }
+.child-photo-wrap {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.13);
+    margin-bottom: 22px;
+}
+.child-photo-wrap img { width: 100%; display: block; object-fit: cover; max-height: 420px; }
+
+.child-quote-block {
+    background: #fff9f0;
+    border-left: 4px solid #f77f00;
+    border-radius: 6px;
+    padding: 18px 20px;
+    margin-bottom: 22px;
+}
+.child-quote-block .fa-quote-left {
+    font-size: 1.6rem;
+    color: #f77f00;
+    opacity: 0.4;
+    display: block;
+    margin-bottom: 6px;
+}
+.child-quote-block p { font-size: 0.97rem; color: #444; font-style: italic; line-height: 1.65; margin-bottom: 8px; }
+.quote-author { font-size: 0.85rem; color: #888; font-weight: 600; }
+
+.share-section { margin-top: 10px; }
+.share-label { font-size: 0.88rem; color: #666; margin-bottom: 10px; }
+.share-label i { color: #f77f00; margin-right: 5px; }
+.share-btns { display: flex; gap: 10px; flex-wrap: wrap; }
+.share-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 5px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #fff !important;
+    text-decoration: none !important;
+    transition: opacity 0.2s;
+}
+.share-btn:hover { opacity: 0.85; color: #fff !important; }
+.share-fb { background: #1877f2; }
+.share-tw { background: #1da1f2; }
+.share-wa { background: #25d366; }
+
+.child-details-list { margin-top: 6px; }
+.child-detail-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid #f2f2f2;
+    font-size: 0.93rem;
+    color: #444;
+}
+.child-detail-row:last-child { border-bottom: none; }
+.child-detail-row i { color: #f77f00; width: 18px; text-align: center; }
+
+.sponsor-status-widget { background: #fffbf5; border: 1px solid #ffe0b2; border-radius: 8px; }
+.sponsor-status-content { padding-top: 4px; }
+.sponsor-status-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.status-badge-awaiting {
+    background: #fff3e0;
+    color: #e65100;
+    border: 1px solid #ffcc80;
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+.status-badge-awaiting i { margin-right: 4px; }
+.status-count { font-size: 0.82rem; color: #999; }
+
+.sponsor-progress-bar {
+    height: 10px;
+    background: #f0f0f0;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+.sponsor-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #f77f00, #d62828);
+    border-radius: 10px;
+}
+.sponsor-urgency { font-size: 0.85rem; color: #c62828; margin-bottom: 0; }
+.sponsor-urgency i { margin-right: 5px; }
+
+.cost-highlight { color: #f77f00; font-weight: 700; }
+.covers-list { list-style: none; padding: 0; margin: 10px 0; }
+.covers-list li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 9px 0;
+    border-bottom: 1px solid #f5f5f5;
+    font-size: 0.92rem;
+    color: #444;
+}
+.covers-list li:last-child { border-bottom: none; }
+.covers-list li i { color: #f77f00; width: 18px; text-align: center; }
+.covers-note { font-size: 0.85rem; color: #388e3c; margin-top: 10px; font-weight: 600; }
+.covers-note i { margin-right: 5px; }
+
+.btn-sponsor-main {
+    display: block;
+    width: 100%;
+    background: linear-gradient(135deg, #f77f00, #d62828);
+    color: #fff;
+    font-weight: 700;
+    font-size: 1.05rem;
+    padding: 15px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 18px;
+    letter-spacing: 0.5px;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    box-shadow: 0 4px 14px rgba(247,127,0,0.35);
+}
+.btn-sponsor-main:hover { opacity: 0.92; transform: translateY(-2px); color: #fff; }
+.btn-sponsor-main i { margin-right: 8px; }
+
+.sponsor-modal-content { border-radius: 10px; overflow: hidden; }
+.sponsor-modal-content .modal-header { background: linear-gradient(135deg, #f77f00, #d62828); color: #fff; }
+.sponsor-modal-content .modal-title { color: #fff; font-weight: 700; }
+.sponsor-modal-content .close { color: #fff; opacity: 0.8; }
+.sponsor-modal-intro {
+    font-size: 0.95rem;
+    color: #555;
+    background: #fff9f0;
+    border-left: 4px solid #f77f00;
+    padding: 12px 15px;
+    border-radius: 4px;
+    margin-bottom: 18px;
+}
+.btn-sponsor-submit {
+    background: linear-gradient(135deg, #f77f00, #d62828);
+    color: #fff;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+.btn-sponsor-submit:hover { opacity: 0.9; }
+.btn-sponsor-submit i { margin-right: 6px; }
+
+@media (max-width: 767.98px) {
+    .beneficiary-img-wrap { height: 200px; }
+    .share-btns { gap: 8px; }
+    .share-btn { padding: 7px 12px; font-size: 0.8rem; }
+    .btn-sponsor-main { font-size: 0.95rem; padding: 13px 16px; }
+}

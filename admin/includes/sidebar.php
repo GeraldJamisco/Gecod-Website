@@ -42,6 +42,11 @@
                         </a>
                     </li>
                     <li>
+                        <a href="donations.php" aria-expanded="false">
+                            <i class="icon-diamond menu-icon"></i><span class="nav-text">Donations Audit</span>
+                        </a>
+                    </li>
+                    <li>
                         <a href="sponsorships.php" aria-expanded="false">
                             <i class="icon-wallet menu-icon"></i><span class="nav-text">Sponsorship Audit</span>
                         </a>

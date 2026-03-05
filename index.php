@@ -537,6 +537,8 @@ include 'includes/header.php';
                 <div class="donate-form">
                     <h4 class="donate-form-title">Donate Securely in USD</h4>
                     <form method="POST" action="checkout-cart.php" id="donationForm">
+                        <input type="hidden" name="donation_type" value="general">
+                        <input type="hidden" name="reference_label" value="General Donation">
                         <div class="control-group">
                             <input type="text" class="form-control" placeholder="Your Full Name" required="required"
                                 name="donorNames" />

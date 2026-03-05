@@ -5,8 +5,12 @@ if (isset($_POST['submitCart'])) {
     include 'config.php';
     include 'includes/header.php';
 
-    $donormail = $conn->real_escape_string($_POST['donoremail']);
-    $donornames = $conn->real_escape_string($_POST['donorNames']);
+    $donormail    = $conn->real_escape_string($_POST['donoremail']);
+    $donornames   = $conn->real_escape_string($_POST['donorNames']);
+    $validTypes   = ['general', 'event', 'child_sponsorship'];
+    $donationType = in_array($_POST['donation_type'] ?? '', $validTypes) ? $_POST['donation_type'] : 'general';
+    $refLabel     = htmlspecialchars(trim($_POST['reference_label'] ?? $_POST['childSponsored'] ?? ''));
+    $orphanId     = (int)($_POST['orphan_id'] ?? 0);
 
     // Determine amount: use custom if "custom" was selected
     if (isset($_POST['customAmount']) && !empty($_POST['customAmount'])) {
@@ -120,8 +124,11 @@ if (isset($_POST['submitCart'])) {
 <script>
 (function() {
     var donationAmount = <?php echo $donationmount; ?>;
-    var donorEmail = '<?php echo addslashes(htmlspecialchars($donormail)); ?>';
-    var donorName = '<?php echo addslashes(htmlspecialchars($donornames)); ?>';
+    var donorEmail     = '<?php echo addslashes(htmlspecialchars($donormail)); ?>';
+    var donorName      = '<?php echo addslashes(htmlspecialchars($donornames)); ?>';
+    var donationType   = '<?php echo addslashes($donationType); ?>';
+    var referenceLabel = '<?php echo addslashes($refLabel); ?>';
+    var orphanId       = <?php echo $orphanId; ?>;
 
     paypal.Buttons({
         createOrder: function(data, actions) {
@@ -143,6 +150,21 @@ if (isset($_POST['submitCart'])) {
         },
         onApprove: function(data, actions) {
             return actions.order.capture().then(function(details) {
+                // Save to DB
+                fetch('save-donation.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        donor_name:      donorName,
+                        donor_email:     donorEmail,
+                        amount:          donationAmount,
+                        txn_id:          details.id,
+                        status:          details.status,
+                        type:            donationType,
+                        reference_label: referenceLabel,
+                        orphan_id:       orphanId
+                    })
+                });
                 document.getElementById('paypal-button-container').innerHTML =
                     '<div class="donation-success">' +
                     '<i class="fa fa-check-circle"></i>' +

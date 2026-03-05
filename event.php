@@ -106,7 +106,7 @@ include 'includes/header.php';
                                     <p>' . $snippet . '</p>
                                     <div class="event-actions">
                                         ' . (!$isPast ? '<a class="btn btn-custom" href="contact.php">Join This Event</a>' : '<a class="btn btn-custom btn-past" href="contact.php">Get Involved</a>') . '
-                                        <a class="btn btn-custom" href="index.php#donate-section">Donate</a>
+                                        <button type="button" class="btn btn-custom" data-toggle="modal" data-target="#eventDonateModal" data-eventtitle="' . $eventtitle . '" data-eventid="' . $eventid . '"><i class="fa fa-heart"></i> Donate</button>
                                         ' . (!$isPast && !empty($gcalDate) ? '<a class="event-calendar-link" href="' . $gcalUrl . '" target="_blank" rel="noopener noreferrer"><i class="fa fa-calendar-plus"></i> Add to Calendar</a>' : '') . '
                                     </div>
                                 </div>
@@ -145,5 +145,57 @@ include 'includes/header.php';
 </div>
 <!-- Donate CTA End -->
 
+<!-- Event Donate Modal -->
+<div class="modal fade" id="eventDonateModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content sponsor-modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="fa fa-heart text-danger"></i> Donate for this Event</h5>
+                <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+            </div>
+            <form action="checkout-cart.php" method="POST">
+                <div class="modal-body">
+                    <p class="sponsor-modal-intro" id="eventDonateIntro">Support this GECOD community event.</p>
+                    <div class="form-group">
+                        <label>Your Full Name</label>
+                        <input type="text" class="form-control" name="donorNames" placeholder="e.g. John Smith" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Your Email Address</label>
+                        <input type="email" class="form-control" name="donoremail" placeholder="e.g. john@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Donation Amount (USD)</label>
+                        <select class="custom-select" name="amountselected" required>
+                            <option value="">-- Select amount --</option>
+                            <option value="25">$25</option>
+                            <option value="50">$50</option>
+                            <option value="100">$100</option>
+                            <option value="200">$200</option>
+                            <option value="500">$500</option>
+                        </select>
+                    </div>
+                    <input type="hidden" name="donation_type" value="event">
+                    <input type="hidden" name="reference_label" id="eventDonateRef" value="">
+                    <p class="small text-muted mt-2"><i class="fa fa-lock"></i> Secure payment via PayPal.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="submit" name="submitCart" class="btn-sponsor-submit">
+                        <i class="fa fa-credit-card"></i> Proceed to Payment
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+$('#eventDonateModal').on('show.bs.modal', function(e) {
+    var btn   = $(e.relatedTarget);
+    var title = btn.data('eventtitle');
+    $('#eventDonateRef').val(title);
+    $('#eventDonateIntro').text('Your donation will directly support: ' + title);
+});
+</script>
 
 <?php include 'includes/footer.php'; ?>

@@ -231,6 +231,9 @@ if (isset($_GET['orphanid'])) {
                     </div>
                     <input type="hidden" name="amountselected" value="50">
                     <input type="hidden" name="childSponsored" value="<?php echo $childName; ?>">
+                    <input type="hidden" name="donation_type" value="child_sponsorship">
+                    <input type="hidden" name="reference_label" value="<?php echo $childName; ?>">
+                    <input type="hidden" name="orphan_id" value="<?php echo htmlspecialchars($mydetails['orphanid']); ?>">
                     <p class="small text-muted mt-2">
                         <i class="fa fa-lock"></i> Secure payment processed via PayPal. All major cards accepted.
                     </p>

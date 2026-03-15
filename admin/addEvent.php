@@ -3,12 +3,12 @@ include 'config.php';
 include 'sessionizr.php';
 
 if (isset($_POST['add_new_event'])) {
-    $eventitle   = $conn->real_escape_string($_POST['title']     ?? '');
-    $evencontent = $conn->real_escape_string($_POST['about']     ?? '');
-    $eventdate   = $conn->real_escape_string($_POST['datec']     ?? '');
-    $eventstart  = $conn->real_escape_string($_POST['timestart'] ?? '');
-    $eventend    = $conn->real_escape_string($_POST['timeend']   ?? '');
-    $eventloc    = $conn->real_escape_string($_POST['location']  ?? '');
+    $eventitle   = $conn->real_escape_string(isset($_POST['title'])     ? $_POST['title']     : '');
+    $evencontent = $conn->real_escape_string(isset($_POST['about'])     ? $_POST['about']     : '');
+    $eventdate   = $conn->real_escape_string(isset($_POST['datec'])     ? $_POST['datec']     : '');
+    $eventstart  = $conn->real_escape_string(isset($_POST['timestart']) ? $_POST['timestart'] : '');
+    $eventend    = $conn->real_escape_string(isset($_POST['timeend'])   ? $_POST['timeend']   : '');
+    $eventloc    = $conn->real_escape_string(isset($_POST['location'])  ? $_POST['location']  : '');
 
     $allowed   = ['jpg','jpeg','png','gif','webp'];
     $fileField = 'eventBanner';

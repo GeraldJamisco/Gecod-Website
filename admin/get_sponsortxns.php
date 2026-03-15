@@ -2,7 +2,7 @@
 include 'config.php';
 include 'sessionizr.php';
 
-$orphId = $conn->real_escape_string($_GET['orphanid'] ?? '');
+$orphId = $conn->real_escape_string(isset($_GET['orphanid']) ? $_GET['orphanid'] : '');
 
 if ($orphId === '') {
     echo '<p class="text-danger">Invalid request.</p>';
@@ -37,9 +37,9 @@ if (!$res || $res->num_rows === 0) {
         $x = 1;
         $runningTotal = 0;
         while ($row = $res->fetch_assoc()):
-            $donor  = htmlspecialchars($row['donor_name']      ?? 'Anonymous', ENT_QUOTES);
+            $donor  = htmlspecialchars(isset($row['donor_name'])  ? $row['donor_name']  : 'Anonymous', ENT_QUOTES);
             $amount = number_format((float)$row['amountSponsored'], 2);
-            $txnId  = htmlspecialchars($row['payment_id']      ?? '—', ENT_QUOTES);
+            $txnId  = htmlspecialchars(isset($row['payment_id']) ? $row['payment_id']  : '—', ENT_QUOTES);
             $date   = $row['paymentDate'] ? date('d M Y', strtotime($row['paymentDate'])) : '—';
             $runningTotal += (float)$row['amountSponsored'];
         ?>

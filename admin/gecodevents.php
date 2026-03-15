@@ -163,7 +163,7 @@ include 'includes/sidebar.php';
                                     <tr>
                                     <td>'.$x++.'</td>
                                     <td>'.$safeTitle.'</td>
-                                    <td>'.mb_substr($safeAbout,0,60).'...</td>
+                                    <td>'.substr($safeAbout,0,60).'...</td>
                                     <td>'.$eventdate.'</td>
                                     <td>'.$eventtimeStart.'</td>
                                     <td>'.$eventtimeend.'</td>

@@ -67,7 +67,7 @@ include 'includes/header.php';
                     }
 
                     // Snippet
-                    $snippet = (mb_strlen($jobDescript) > 120) ? mb_substr($jobDescript, 0, 120) . '&hellip;' : $jobDescript;
+                    $snippet = (strlen($jobDescript) > 120) ? substr($jobDescript, 0, 120) . '&hellip;' : $jobDescript;
 
                     // Status badge
                     $statusBadge = $isExpired

@@ -3,8 +3,8 @@ include 'config.php';
 include 'sessionizr.php';
 
 if (isset($_POST['add_new_roadmap'])) {
-    $rdtitle   = $conn->real_escape_string($_POST['roadmaptitle'] ?? '');
-    $rdcontent = $conn->real_escape_string($_POST['content']      ?? '');
+    $rdtitle   = $conn->real_escape_string(isset($_POST['roadmaptitle']) ? $_POST['roadmaptitle'] : '');
+    $rdcontent = $conn->real_escape_string(isset($_POST['content'])      ? $_POST['content']      : '');
 
     $allowed   = ['jpg','jpeg','png','gif','webp'];
     $fileField = 'profavatar';

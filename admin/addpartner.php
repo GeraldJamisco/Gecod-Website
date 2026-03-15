@@ -3,7 +3,7 @@ include 'config.php';
 include 'sessionizr.php';
 
 if (isset($_POST['add_new_partner'])) {
-    $partnernames = $conn->real_escape_string($_POST['partnernames'] ?? '');
+    $partnernames = $conn->real_escape_string(isset($_POST['partnernames']) ? $_POST['partnernames'] : '');
 
     $allowed   = ['jpg','jpeg','png','gif','webp','svg'];
     $fileField = 'partnerlogo';

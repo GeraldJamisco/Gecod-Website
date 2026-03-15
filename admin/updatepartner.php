@@ -3,8 +3,8 @@ include 'config.php';
 include 'sessionizr.php';
 
 if (isset($_POST['update_partner'])) {
-    $id    = (int)($_POST['record_id']     ?? 0);
-    $names = $conn->real_escape_string($_POST['partnernames'] ?? '');
+    $id    = (int)(isset($_POST['record_id'])     ? $_POST['record_id']     : 0);
+    $names = $conn->real_escape_string(isset($_POST['partnernames']) ? $_POST['partnernames'] : '');
 
     $imgUpdate = '';
     $allowed   = ['jpg','jpeg','png','gif','webp','svg'];

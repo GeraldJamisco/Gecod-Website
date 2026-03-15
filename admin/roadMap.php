@@ -94,7 +94,7 @@ include 'includes/sidebar.php';
                                     <img class="img-fluid" src="../img/'.$rdimg.'" alt="">
                                     <div class="card-body">
                                         <h5 class="card-title">'.$safeTitle.'</h5>
-                                        <p>'.mb_substr($safeContent, 0, 120).'...</p>
+                                        <p>'.substr($safeContent, 0, 120).'...</p>
                                         <button type="button" class="btn btn-warning btn-sm mr-1 mb-1"
                                             data-toggle="modal" data-target="#editRoadmapModal"
                                             data-id="'.$deleteid.'"

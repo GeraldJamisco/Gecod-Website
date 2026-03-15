@@ -42,6 +42,20 @@
                         </a>
                     </li>
                     <li>
+                        <a href="messages.php" aria-expanded="false">
+                            <i class="icon-bubbles menu-icon"></i>
+                            <span class="nav-text">Messages
+                                <?php
+                                if (isset($conn)) {
+                                    mysqli_report(MYSQLI_REPORT_OFF);
+                                    $__u = $conn->query("SELECT COUNT(*) AS c FROM contact_messages WHERE status='new'");
+                                    if ($__u) { $__uc = (int)$__u->fetch_assoc()['c']; if ($__uc > 0) echo '<span class="badge badge-danger ml-1">'.$__uc.'</span>'; }
+                                }
+                                ?>
+                            </span>
+                        </a>
+                    </li>
+                    <li>
                         <a href="donations.php" aria-expanded="false">
                             <i class="icon-diamond menu-icon"></i><span class="nav-text">Donations Audit</span>
                         </a>

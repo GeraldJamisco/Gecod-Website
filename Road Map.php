@@ -123,7 +123,7 @@ include 'includes/header.php';
                     $date     = !empty($rows['uploadDate']) ? date('F j, Y', strtotime($rows['uploadDate'])) : '';
 
                     // Truncate long content
-                    $snippet = (mb_strlen($content) > 130) ? mb_substr($content, 0, 130) . '&hellip;' : $content;
+                    $snippet = (strlen($content) > 130) ? substr($content, 0, 130) . '&hellip;' : $content;
 
                     echo '
                     <div class="col-lg-4 col-md-6 mb-4">

@@ -4,10 +4,10 @@ mysqli_report(MYSQLI_REPORT_OFF);
 
 if (isset($_POST['submit'])) {
     // Sanitize all inputs — strip tags, trim whitespace
-    $names   = strip_tags(trim($_POST['name']   ?? ''));
-    $email   = filter_var(trim($_POST['email']  ?? ''), FILTER_SANITIZE_EMAIL);
-    $subject = strip_tags(trim($_POST['subject'] ?? ''));
-    $message = strip_tags(trim($_POST['message'] ?? ''));
+    $names   = strip_tags(trim(isset($_POST['name'])    ? $_POST['name']    : ''));
+    $email   = filter_var(trim(isset($_POST['email'])   ? $_POST['email']   : ''), FILTER_SANITIZE_EMAIL);
+    $subject = strip_tags(trim(isset($_POST['subject']) ? $_POST['subject'] : ''));
+    $message = strip_tags(trim(isset($_POST['message']) ? $_POST['message'] : ''));
 
     // Basic validation
     if (empty($names) || empty($subject) || empty($message) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -15,8 +15,17 @@ if (isset($_POST['submit'])) {
         exit;
     }
 
+    // Save to DB
+    if (isset($conn)) {
+        $stmt = $conn->prepare("INSERT INTO contact_messages (sender_name, sender_email, subject, message) VALUES (?, ?, ?, ?)");
+        if ($stmt) {
+            $stmt->bind_param("ssss", $names, $email, $subject, $message);
+            $stmt->execute();
+            $stmt->close();
+        }
+    }
+
     $mailto  = "info@gecodinitiative.org";
-    // Safe headers — no newlines allowed in sender name/email (prevents header injection)
     $safeName  = str_replace(["\r", "\n"], '', $names);
     $safeEmail = str_replace(["\r", "\n"], '', $email);
     $headers   = "From: {$safeName} <{$safeEmail}>\r\n";
@@ -34,7 +43,7 @@ if (isset($_POST['submit'])) {
     exit;
 
 } elseif (isset($_POST['updates'])) {
-    $requester = filter_var(trim($_POST['mailupdates'] ?? ''), FILTER_SANITIZE_EMAIL);
+    $requester = filter_var(trim(isset($_POST['mailupdates']) ? $_POST['mailupdates'] : ''), FILTER_SANITIZE_EMAIL);
 
     if (!filter_var($requester, FILTER_VALIDATE_EMAIL)) {
         header("Location: contact.php");

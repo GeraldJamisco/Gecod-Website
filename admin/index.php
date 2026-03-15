@@ -62,8 +62,8 @@ include 'config.php';
 
 
 if (isset($_POST['submit'])) {
-    $mmails = $conn->real_escape_string(trim($_POST['email'] ?? ''));
-    $pwd    = trim($_POST['password'] ?? '');
+    $mmails = $conn->real_escape_string(trim(isset($_POST['email'])    ? $_POST['email']    : ''));
+    $pwd    = trim(isset($_POST['password']) ? $_POST['password'] : '');
 
     if (empty($mmails) || empty($pwd)) {
         echo '<div class="container"><div class="alert alert-danger mt-3">Please enter your email and password.</div></div>';

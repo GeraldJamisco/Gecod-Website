@@ -10,7 +10,7 @@ if (isset($_GET['id'])) {
     if ($rmeta && $rmeta->num_rows > 0) {
         $rrow      = $rmeta->fetch_assoc();
         $pageTitle = htmlspecialchars($rrow['Title']) . ' | GECOD Road Map';
-        $pageDesc  = mb_substr(strip_tags(html_entity_decode($rrow['content'])), 0, 155) . '…';
+        $pageDesc  = substr(strip_tags(html_entity_decode($rrow['content'])), 0, 155) . '…';
     }
 }
 include 'includes/header.php';
@@ -141,8 +141,8 @@ if (isset($_GET['id'])) {
                                 $oImg   = htmlspecialchars($other['image']);
                                 $oDate  = !empty($other['uploadDate']) ? date('M j, Y', strtotime($other['uploadDate'])) : '';
                                 $oId    = htmlspecialchars($other['recordid']);
-                                $oSnip  = mb_strlen(htmlspecialchars($other['content'])) > 70
-                                            ? mb_substr(htmlspecialchars($other['content']), 0, 70) . '&hellip;'
+                                $oSnip  = strlen(htmlspecialchars($other['content'])) > 70
+                                            ? substr(htmlspecialchars($other['content']), 0, 70) . '&hellip;'
                                             : htmlspecialchars($other['content']);
                             ?>
                             <a href="viewroadmap.php?id=<?php echo $oId; ?>" class="roadmap-other-item">

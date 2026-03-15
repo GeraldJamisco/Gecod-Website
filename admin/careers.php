@@ -165,7 +165,7 @@ include 'includes/sidebar.php';
                                 $jobContacts = $rows['contacts'];
                                 $jobDeadline = $rows['deadlineDate'];
                                 $jobHiring   = $rows['hiringType'];
-                                $jobHours    = $rows['workingHours'] ?? '';
+                                $jobHours    = isset($rows['workingHours']) ? $rows['workingHours'] : '';
 
                                 $safeTitle    = htmlspecialchars($jobTitle,    ENT_QUOTES);
                                 $safeDescript = htmlspecialchars($jobDescript, ENT_QUOTES);
@@ -182,7 +182,7 @@ include 'includes/sidebar.php';
                                     <tr>
                                     <td>'.$x++.'</td>
                                     <td>'.$safeTitle.'</td>
-                                    <td>'.mb_substr($safeDescript,0,80).'...</td>
+                                    <td>'.substr($safeDescript,0,80).'...</td>
                                     <td><img class="img-fluid" style="max-width:60px;" src="../img/job_banner_images/'.$jobBanner.'" alt=""></td>
                                     <td>
                                         <button type="button" class="btn btn-warning btn-sm mr-1"

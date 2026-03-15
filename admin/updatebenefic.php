@@ -3,11 +3,11 @@ include 'config.php';
 include 'sessionizr.php';
 
 if (isset($_POST['update_beneficiary'])) {
-    $orphanid = $conn->real_escape_string($_POST['orphanid'] ?? '');
-    $names    = $conn->real_escape_string($_POST['benefNames'] ?? '');
-    $bio      = $conn->real_escape_string($_POST['benefBio']   ?? '');
-    $dob      = $conn->real_escape_string($_POST['dob']        ?? '');
-    $gender   = $conn->real_escape_string($_POST['gender']     ?? '');
+    $orphanid = $conn->real_escape_string(isset($_POST['orphanid'])   ? $_POST['orphanid']   : '');
+    $names    = $conn->real_escape_string(isset($_POST['benefNames']) ? $_POST['benefNames'] : '');
+    $bio      = $conn->real_escape_string(isset($_POST['benefBio'])   ? $_POST['benefBio']   : '');
+    $dob      = $conn->real_escape_string(isset($_POST['dob'])        ? $_POST['dob']        : '');
+    $gender   = $conn->real_escape_string(isset($_POST['gender'])     ? $_POST['gender']     : '');
 
     $imgUpdate = '';
     $allowed   = ['jpg','jpeg','png','gif','webp'];

@@ -3,12 +3,12 @@ include 'config.php';
 include 'sessionizr.php';
 
 if (isset($_POST['update_member'])) {
-    $id       = (int)($_POST['record_id'] ?? 0);
-    $names    = $conn->real_escape_string($_POST['bdNames']   ?? '');
-    $title    = $conn->real_escape_string($_POST['bdTitle']   ?? '');
-    $twitter  = $conn->real_escape_string($_POST['bdtwit']    ?? '');
-    $fb       = $conn->real_escape_string($_POST['bdfb']      ?? '');
-    $whatsapp = $conn->real_escape_string($_POST['bdwasap']   ?? '');
+    $id       = (int)(isset($_POST['record_id']) ? $_POST['record_id'] : 0);
+    $names    = $conn->real_escape_string(isset($_POST['bdNames'])  ? $_POST['bdNames']  : '');
+    $title    = $conn->real_escape_string(isset($_POST['bdTitle'])  ? $_POST['bdTitle']  : '');
+    $twitter  = $conn->real_escape_string(isset($_POST['bdtwit'])   ? $_POST['bdtwit']   : '');
+    $fb       = $conn->real_escape_string(isset($_POST['bdfb'])     ? $_POST['bdfb']     : '');
+    $whatsapp = $conn->real_escape_string(isset($_POST['bdwasap'])  ? $_POST['bdwasap']  : '');
 
     $imgUpdate = '';
     $allowed   = ['jpg','jpeg','png','gif','webp'];

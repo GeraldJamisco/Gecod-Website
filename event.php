@@ -71,7 +71,7 @@ include 'includes/header.php';
                     }
 
                     // Snippet: first 160 chars
-                    $snippet = (mb_strlen($eventcontent) > 160) ? mb_substr($eventcontent, 0, 160) . '&hellip;' : $eventcontent;
+                    $snippet = (strlen($eventcontent) > 160) ? substr($eventcontent, 0, 160) . '&hellip;' : $eventcontent;
 
                     // Status badge
                     $statusBadge = $isPast

@@ -3,10 +3,10 @@ include 'config.php';
 include 'sessionizr.php';
 
 if (isset($_POST['add_new_beneficiary'])) {
-    $benefNames = $conn->real_escape_string($_POST['benefNames'] ?? '');
-    $benefBio   = $conn->real_escape_string($_POST['benefBio']   ?? '');
-    $dateob     = $conn->real_escape_string($_POST['dob']        ?? '');
-    $gendaf     = $conn->real_escape_string($_POST['gender']     ?? '');
+    $benefNames = $conn->real_escape_string(isset($_POST['benefNames']) ? $_POST['benefNames'] : '');
+    $benefBio   = $conn->real_escape_string(isset($_POST['benefBio'])   ? $_POST['benefBio']   : '');
+    $dateob     = $conn->real_escape_string(isset($_POST['dob'])        ? $_POST['dob']        : '');
+    $gendaf     = $conn->real_escape_string(isset($_POST['gender'])     ? $_POST['gender']     : '');
 
     $allowed   = ['jpg','jpeg','png','gif','webp'];
     $fileField = 'profavatar';

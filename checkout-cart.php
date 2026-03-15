@@ -8,9 +8,9 @@ if (isset($_POST['submitCart'])) {
     $donormail    = $conn->real_escape_string($_POST['donoremail']);
     $donornames   = $conn->real_escape_string($_POST['donorNames']);
     $validTypes   = ['general', 'event', 'child_sponsorship'];
-    $donationType = in_array($_POST['donation_type'] ?? '', $validTypes) ? $_POST['donation_type'] : 'general';
-    $refLabel     = htmlspecialchars(trim($_POST['reference_label'] ?? $_POST['childSponsored'] ?? ''));
-    $orphanId     = (int)($_POST['orphan_id'] ?? 0);
+    $donationType = in_array(isset($_POST['donation_type']) ? $_POST['donation_type'] : '', $validTypes) ? $_POST['donation_type'] : 'general';
+    $refLabel     = htmlspecialchars(trim(isset($_POST['reference_label']) ? $_POST['reference_label'] : (isset($_POST['childSponsored']) ? $_POST['childSponsored'] : '')));
+    $orphanId     = (int)(isset($_POST['orphan_id']) ? $_POST['orphan_id'] : 0);
 
     // Determine amount: use custom if "custom" was selected
     if (isset($_POST['customAmount']) && !empty($_POST['customAmount'])) {
@@ -55,10 +55,11 @@ if (isset($_POST['submitCart'])) {
                         <p><i class="fa fa-dollar-sign"></i> <strong>Amount:</strong> $<?php echo $donationmount; ?> USD</p>
                     </div>
 
-                    <div class="paypal-section">
-                        <p class="secure-label"><i class="fa fa-lock"></i> Secure payment via PayPal. All major cards accepted.</p>
-                        <div id="paypal-button-container"></div>
-                    </div>
+                    <p class="secure-label"><i class="fa fa-lock"></i> Secure payment via Flutterwave. Cards, bank transfer &amp; mobile money accepted.</p>
+                    <button id="flw-pay-btn" class="btn btn-flw btn-block">
+                        <i class="fa fa-credit-card"></i> Donate $<?php echo $donationmount; ?> USD Now
+                    </button>
+                    <div id="flw-result"></div>
 
                     <p class="mt-3 text-muted small">
                         A confirmation email will be sent to <?php echo htmlspecialchars($donormail); ?> after your donation is processed.
@@ -121,77 +122,59 @@ if (isset($_POST['submitCart'])) {
 </div>
 <!-- Checkout End -->
 
+<script src="https://checkout.flutterwave.com/v3.js"></script>
 <script>
-(function() {
-    var donationAmount = <?php echo $donationmount; ?>;
-    var donorEmail     = '<?php echo addslashes(htmlspecialchars($donormail)); ?>';
-    var donorName      = '<?php echo addslashes(htmlspecialchars($donornames)); ?>';
-    var donationType   = '<?php echo addslashes($donationType); ?>';
-    var referenceLabel = '<?php echo addslashes($refLabel); ?>';
-    var orphanId       = <?php echo $orphanId; ?>;
-
-    paypal.Buttons({
-        createOrder: function(data, actions) {
-            return actions.order.create({
-                purchase_units: [{
-                    amount: {
-                        value: donationAmount.toFixed(2),
-                        currency_code: 'USD'
-                    },
-                    description: 'Donation to GECOD Initiative - Supporting vulnerable children in Uganda'
-                }],
-                payer: {
-                    email_address: donorEmail,
-                    name: {
-                        given_name: donorName
-                    }
-                }
-            });
+document.getElementById('flw-pay-btn').addEventListener('click', function() {
+    FlutterwaveCheckout({
+        public_key: "b918c318-99e6-4b06-a5df-20c21c6854a5",
+        tx_ref: "GECOD-" + Date.now(),
+        amount: <?php echo $donationmount; ?>,
+        currency: "USD",
+        payment_options: "card, banktransfer, ussd, mobilemoney",
+        customer: {
+            email: "<?php echo addslashes(htmlspecialchars($donormail)); ?>",
+            name:  "<?php echo addslashes(htmlspecialchars($donornames)); ?>"
         },
-        onApprove: function(data, actions) {
-            return actions.order.capture().then(function(details) {
-                // Save to DB
+        meta: {
+            donation_type: "<?php echo addslashes($donationType); ?>",
+            reference:     "<?php echo addslashes($refLabel); ?>",
+            orphan_id:     <?php echo $orphanId; ?>
+        },
+        customizations: {
+            title:       "GECOD Initiative Donation",
+            description: "Supporting vulnerable children and families in Uganda",
+            logo:        "https://gecodinitiative.org/img/logo.png"
+        },
+        callback: function(data) {
+            if (data.status === "successful" || data.status === "completed") {
                 fetch('save-donation.php', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        donor_name:      donorName,
-                        donor_email:     donorEmail,
-                        amount:          donationAmount,
-                        txn_id:          details.id,
-                        status:          details.status,
-                        type:            donationType,
-                        reference_label: referenceLabel,
-                        orphan_id:       orphanId
+                        donor_name:      "<?php echo addslashes(htmlspecialchars($donornames)); ?>",
+                        donor_email:     "<?php echo addslashes(htmlspecialchars($donormail)); ?>",
+                        amount:          <?php echo $donationmount; ?>,
+                        txn_id:          data.transaction_id,
+                        status:          data.status,
+                        type:            "<?php echo addslashes($donationType); ?>",
+                        reference_label: "<?php echo addslashes($refLabel); ?>",
+                        orphan_id:       <?php echo $orphanId; ?>
                     })
                 });
-                document.getElementById('paypal-button-container').innerHTML =
+                document.getElementById('flw-result').innerHTML =
                     '<div class="donation-success">' +
                     '<i class="fa fa-check-circle"></i>' +
-                    '<h3>Thank you, ' + details.payer.name.given_name + '!</h3>' +
-                    '<p>Your donation of <strong>$' + donationAmount + ' USD</strong> has been received. ' +
-                    'A confirmation has been sent to <strong>' + donorEmail + '</strong>.</p>' +
-                    '<p>Transaction ID: ' + details.id + '</p>' +
+                    '<h3>Thank you, <?php echo addslashes(htmlspecialchars($donornames)); ?>!</h3>' +
+                    '<p>Your donation of <strong>$<?php echo $donationmount; ?> USD</strong> has been received.</p>' +
+                    '<p>Transaction ID: ' + data.transaction_id + '</p>' +
                     '<a href="index.php" class="btn btn-custom">Return to Home</a>' +
                     '</div>';
-            });
+                document.getElementById('flw-pay-btn').style.display = 'none';
+            }
         },
-        onError: function(err) {
-            document.getElementById('paypal-button-container').innerHTML =
-                '<div class="donation-error">' +
-                '<i class="fa fa-exclamation-circle"></i>' +
-                '<p>Payment could not be processed. Please try again or contact us at info@gecodinitiative.org</p>' +
-                '<a href="index.php#donate-section" class="btn btn-custom">Try Again</a>' +
-                '</div>';
-        },
-        style: {
-            layout: 'vertical',
-            color: 'gold',
-            shape: 'rect',
-            label: 'donate'
-        }
-    }).render('#paypal-button-container');
-})();
+        onclose: function() {}
+    });
+});
 </script>
 
 <?php

@@ -131,14 +131,14 @@ include 'includes/sidebar.php';
                                 $safeNames  = htmlspecialchars($orphnames, ENT_QUOTES);
                                 $safeGender = htmlspecialchars($orphangender, ENT_QUOTES);
                                 $safeInfo   = htmlspecialchars($orphinfo, ENT_QUOTES);
-                                $safeDob    = htmlspecialchars($rows['orphanBirthday'] ?? '', ENT_QUOTES);
+                                $safeDob    = htmlspecialchars(isset($rows['orphanBirthday']) ? $rows['orphanBirthday'] : '', ENT_QUOTES);
 
                                 echo '
                                     <tr>
                                     <td>'.$x++.'</td>
                                     <td>'.$safeNames.'</td>
                                     <td>'.$safeGender.'</td>
-                                    <td>'.mb_substr($safeInfo, 0, 80).'...</td>
+                                    <td>'.substr($safeInfo, 0, 80).'...</td>
                                     <td><img class="img-fluid" style="max-width:60px;" src="../img/beneficiaries/'.$orphimg.'" alt=""></td>
                                     <td>
                                         <button type="button" class="btn btn-warning btn-sm mr-1"

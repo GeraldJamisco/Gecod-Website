@@ -3,11 +3,11 @@ include 'config.php';
 include 'sessionizr.php';
 
 if (isset($_POST['add_new_member'])) {
-    $bodnames = $conn->real_escape_string($_POST['bdNames']    ?? '');
-    $bdtitle  = $conn->real_escape_string($_POST['bdTitle']    ?? '');
-    $bdtwit   = $conn->real_escape_string($_POST['bdtwtlink']  ?? '');
-    $bdfb     = $conn->real_escape_string($_POST['bdfblink']   ?? '');
-    $bdwasap  = $conn->real_escape_string($_POST['bdwsplink']  ?? '');
+    $bodnames = $conn->real_escape_string(isset($_POST['bdNames'])   ? $_POST['bdNames']   : '');
+    $bdtitle  = $conn->real_escape_string(isset($_POST['bdTitle'])   ? $_POST['bdTitle']   : '');
+    $bdtwit   = $conn->real_escape_string(isset($_POST['bdtwtlink']) ? $_POST['bdtwtlink'] : '');
+    $bdfb     = $conn->real_escape_string(isset($_POST['bdfblink'])  ? $_POST['bdfblink']  : '');
+    $bdwasap  = $conn->real_escape_string(isset($_POST['bdwsplink']) ? $_POST['bdwsplink'] : '');
 
     $allowed  = ['jpg','jpeg','png','gif','webp'];
     $fileField = 'profavatar';

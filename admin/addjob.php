@@ -3,16 +3,16 @@ include 'config.php';
 include 'sessionizr.php';
 
 if (isset($_POST['add_new_Job'])) {
-    $jobTitle    = $conn->real_escape_string($_POST['jobTitle']    ?? '');
-    $jobDescript = $conn->real_escape_string($_POST['jobDescript'] ?? '');
-    $jobPosition = $conn->real_escape_string($_POST['jobPosition'] ?? '');
-    $joblocation = $conn->real_escape_string($_POST['jobLocation'] ?? '');
-    $jobQualific = $conn->real_escape_string($_POST['jobQualific'] ?? '');
-    $jobExperie  = $conn->real_escape_string($_POST['jobExperie']  ?? '');
-    $dld         = $conn->real_escape_string($_POST['dld']         ?? '');
-    $jobsend     = $conn->real_escape_string($_POST['jobsend']     ?? '');
-    $hiringType  = $conn->real_escape_string($_POST['hiringType']  ?? '');
-    $workingHrs  = $conn->real_escape_string($_POST['workingHours'] ?? '');
+    $jobTitle    = $conn->real_escape_string(isset($_POST['jobTitle'])     ? $_POST['jobTitle']     : '');
+    $jobDescript = $conn->real_escape_string(isset($_POST['jobDescript']) ? $_POST['jobDescript'] : '');
+    $jobPosition = $conn->real_escape_string(isset($_POST['jobPosition']) ? $_POST['jobPosition'] : '');
+    $joblocation = $conn->real_escape_string(isset($_POST['jobLocation']) ? $_POST['jobLocation'] : '');
+    $jobQualific = $conn->real_escape_string(isset($_POST['jobQualific']) ? $_POST['jobQualific'] : '');
+    $jobExperie  = $conn->real_escape_string(isset($_POST['jobExperie'])  ? $_POST['jobExperie']  : '');
+    $dld         = $conn->real_escape_string(isset($_POST['dld'])         ? $_POST['dld']         : '');
+    $jobsend     = $conn->real_escape_string(isset($_POST['jobsend'])     ? $_POST['jobsend']     : '');
+    $hiringType  = $conn->real_escape_string(isset($_POST['hiringType'])  ? $_POST['hiringType']  : '');
+    $workingHrs  = $conn->real_escape_string(isset($_POST['workingHours']) ? $_POST['workingHours'] : '');
 
     $allowed   = ['jpg','jpeg','png','gif','webp'];
     $fileField = 'profavatar';

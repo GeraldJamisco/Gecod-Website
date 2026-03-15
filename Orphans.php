@@ -55,7 +55,7 @@ include 'includes/header.php';
                 }
 
                 // Short bio snippet (first 85 chars)
-                $snippet = (mb_strlen($info) > 85) ? mb_substr($info, 0, 85) . '&hellip;' : $info;
+                $snippet = (strlen($info) > 85) ? substr($info, 0, 85) . '&hellip;' : $info;
 
                 // Gender badge styling
                 $genderClass = (strtolower($gender) === 'female') ? 'badge-girl' : 'badge-boy';

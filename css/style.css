@@ -3496,3 +3496,43 @@ a:focus {
     .contact-info-panel, .contact-form-panel { padding: 24px 18px; }
     .contact-form-footer { flex-direction: column; align-items: flex-start; }
 }
+
+/* ===================== PAYMENT TABS (Checkout) ===================== */
+.payment-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+.pay-tab {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    background: #fff;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #555;
+    transition: all 0.2s ease;
+}
+.pay-tab:hover { border-color: #f0a500; color: #f0a500; }
+.pay-tab.active { border-color: #f0a500; background: #fff8e6; color: #c87f00; }
+.payment-panel { margin-top: 8px; }
+
+.btn-flw {
+    background: linear-gradient(135deg, #f5a623, #f0821e);
+    color: #fff;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    width: 100%;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    box-shadow: 0 4px 14px rgba(245,166,35,0.35);
+}
+.btn-flw:hover { opacity: 0.92; transform: translateY(-2px); color: #fff; }

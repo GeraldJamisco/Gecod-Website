@@ -13,14 +13,14 @@ if (!isset($conn)) return;
 if (isset($_SESSION['gecodmail'])) return;
 
 // Skip common bots/crawlers
-$ua = $_SERVER['HTTP_USER_AGENT'] ?? '';
+$ua = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
 $bots = ['bot', 'crawler', 'spider', 'slurp', 'googlebot', 'bingbot', 'yandex', 'baidu', 'facebookexternalhit', 'curl', 'wget', 'python', 'java'];
 foreach ($bots as $bot) {
     if (stripos($ua, $bot) !== false) return;
 }
 
 // Resolve real IP (handle reverse proxies)
-$ip = $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
+$ip = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '0.0.0.0';
 if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
     $forwarded = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
     $ip = trim($forwarded[0]);
@@ -28,7 +28,7 @@ if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
 $ip = filter_var($ip, FILTER_VALIDATE_IP) ? $ip : '0.0.0.0';
 
 $safeIp   = $conn->real_escape_string($ip);
-$safePage = $conn->real_escape_string(substr($_SERVER['REQUEST_URI'] ?? '/', 0, 500));
+$safePage = $conn->real_escape_string(substr(isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '/', 0, 500));
 $safeUa   = $conn->real_escape_string(substr($ua, 0, 500));
 
 // Check geo cache first
@@ -55,14 +55,14 @@ if ($geoRes && $geoRes->num_rows > 0) {
         $apiData = @file_get_contents($apiUrl, false, $ctx);
     }
 
-    if ($apiData) {
+    if ($apiData && function_exists('json_decode')) {
         $parsed = json_decode($apiData, true);
-        if (isset($parsed['country'])) {
+        if (is_array($parsed) && isset($parsed['country'])) {
             $geo = [
-                'country'      => $parsed['country']    ?? '',
-                'country_code' => $parsed['countryCode'] ?? '',
-                'region'       => $parsed['regionName']  ?? '',
-                'city'         => $parsed['city']        ?? '',
+                'country'      => isset($parsed['country'])     ? $parsed['country']     : '',
+                'country_code' => isset($parsed['countryCode']) ? $parsed['countryCode'] : '',
+                'region'       => isset($parsed['regionName'])  ? $parsed['regionName']  : '',
+                'city'         => isset($parsed['city'])        ? $parsed['city']        : '',
             ];
         }
     }

@@ -14,14 +14,14 @@ if (!$data) {
     echo json_encode(['success' => false, 'error' => 'No data']); exit;
 }
 
-$donorName  = $conn->real_escape_string($data['donor_name']      ?? '');
-$donorEmail = $conn->real_escape_string($data['donor_email']     ?? '');
-$amount     = round((float)($data['amount']                      ?? 0), 2);
-$txnId      = $conn->real_escape_string($data['txn_id']          ?? '');
-$status     = $conn->real_escape_string($data['status']          ?? 'COMPLETED');
-$refLabel   = $conn->real_escape_string($data['reference_label'] ?? '');
+$donorName  = $conn->real_escape_string(isset($data['donor_name'])      ? $data['donor_name']      : '');
+$donorEmail = $conn->real_escape_string(isset($data['donor_email'])     ? $data['donor_email']     : '');
+$amount     = round((float)(isset($data['amount'])                      ? $data['amount']          : 0), 2);
+$txnId      = $conn->real_escape_string(isset($data['txn_id'])          ? $data['txn_id']          : '');
+$status     = $conn->real_escape_string(isset($data['status'])          ? $data['status']          : 'COMPLETED');
+$refLabel   = $conn->real_escape_string(isset($data['reference_label']) ? $data['reference_label'] : '');
 $validTypes = ['general', 'event', 'child_sponsorship'];
-$type       = in_array($data['type'] ?? '', $validTypes) ? $data['type'] : 'general';
+$type       = in_array(isset($data['type']) ? $data['type'] : '', $validTypes) ? $data['type'] : 'general';
 
 if ($amount <= 0 || empty($txnId)) {
     echo json_encode(['success' => false, 'error' => 'Invalid amount or transaction']); exit;

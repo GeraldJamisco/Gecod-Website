@@ -3,13 +3,13 @@ include 'config.php';
 include 'sessionizr.php';
 
 if (isset($_POST['update_event'])) {
-    $id       = (int)($_POST['record_id']   ?? 0);
-    $title    = $conn->real_escape_string($_POST['title']     ?? '');
-    $about    = $conn->real_escape_string($_POST['about']     ?? '');
-    $date     = $conn->real_escape_string($_POST['datec']     ?? '');
-    $tstart   = $conn->real_escape_string($_POST['timestart'] ?? '');
-    $tend     = $conn->real_escape_string($_POST['timeend']   ?? '');
-    $location = $conn->real_escape_string($_POST['location']  ?? '');
+    $id       = (int)(isset($_POST['record_id'])  ? $_POST['record_id']  : 0);
+    $title    = $conn->real_escape_string(isset($_POST['title'])     ? $_POST['title']     : '');
+    $about    = $conn->real_escape_string(isset($_POST['about'])     ? $_POST['about']     : '');
+    $date     = $conn->real_escape_string(isset($_POST['datec'])     ? $_POST['datec']     : '');
+    $tstart   = $conn->real_escape_string(isset($_POST['timestart']) ? $_POST['timestart'] : '');
+    $tend     = $conn->real_escape_string(isset($_POST['timeend'])   ? $_POST['timeend']   : '');
+    $location = $conn->real_escape_string(isset($_POST['location'])  ? $_POST['location']  : '');
 
     $imgUpdate = '';
     $allowed   = ['jpg','jpeg','png','gif','webp'];

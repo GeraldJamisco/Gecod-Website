@@ -86,8 +86,6 @@ if (isset($conn)) { include_once __DIR__ . '/tracker.php'; }
         <!-- Template Stylesheet -->
         <link href="css/style.css" rel="stylesheet">
         
-        <!--paypal payments link-->
-          <script src="https://www.paypal.com/sdk/js?client-id=ActyjjB3m2fEfMO0TniJdH7A7QF26khiSN-gVmDXgxG2Owxh-W0_RbeqSGi7du3vD65ZNAUNsPev_CCn&currency=USD"></script>
 
     </head>
 

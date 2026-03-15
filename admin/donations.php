@@ -4,9 +4,9 @@ include 'sessionizr.php';
 mysqli_report(MYSQLI_REPORT_OFF);
 
 // Filters
-$filterType = $_GET['type'] ?? 'all';
-$filterFrom = $_GET['from'] ?? '';
-$filterTo   = $_GET['to']   ?? '';
+$filterType = isset($_GET['type']) ? $_GET['type'] : 'all';
+$filterFrom = isset($_GET['from']) ? $_GET['from'] : '';
+$filterTo   = isset($_GET['to'])   ? $_GET['to']   : '';
 
 $where = [];
 if (in_array($filterType, ['general','event','child_sponsorship'])) {
@@ -169,7 +169,7 @@ include 'includes/sidebar.php';
                             <td><?= htmlspecialchars($row['donor_name']) ?></td>
                             <td><a href="mailto:<?= htmlspecialchars($row['donor_email']) ?>"><?= htmlspecialchars($row['donor_email']) ?></a></td>
                             <td><strong>$<?= number_format((float)$row['amount'], 2) ?></strong></td>
-                            <td><span class="badge <?= $typeBadge[$row['donation_type']] ?? 'badge-secondary' ?>"><?= $typeLabel[$row['donation_type']] ?? $row['donation_type'] ?></span></td>
+                            <td><span class="badge <?= isset($typeBadge[$row['donation_type']]) ? $typeBadge[$row['donation_type']] : 'badge-secondary' ?>"><?= isset($typeLabel[$row['donation_type']]) ? $typeLabel[$row['donation_type']] : $row['donation_type'] ?></span></td>
                             <td><?= htmlspecialchars($row['reference_label'] ?: '—') ?></td>
                             <td><small class="text-monospace"><?= htmlspecialchars($row['paypal_txn_id'] ?: '—') ?></small></td>
                             <td><span class="badge badge-<?= $row['paypal_status'] === 'COMPLETED' ? 'success' : 'secondary' ?>"><?= htmlspecialchars($row['paypal_status']) ?></span></td>

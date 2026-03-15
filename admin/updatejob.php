@@ -3,17 +3,17 @@ include 'config.php';
 include 'sessionizr.php';
 
 if (isset($_POST['update_job'])) {
-    $id          = (int)($_POST['record_id']     ?? 0);
-    $title       = $conn->real_escape_string($_POST['jobTitle']     ?? '');
-    $desc        = $conn->real_escape_string($_POST['jobDescript']  ?? '');
-    $position    = $conn->real_escape_string($_POST['jobPosition']  ?? '');
-    $location    = $conn->real_escape_string($_POST['jobLocation']  ?? '');
-    $qualif      = $conn->real_escape_string($_POST['jobQualific']  ?? '');
-    $experience  = $conn->real_escape_string($_POST['jobExperie']   ?? '');
-    $contacts    = $conn->real_escape_string($_POST['jobsend']      ?? '');
-    $deadline    = $conn->real_escape_string($_POST['dld']          ?? '');
-    $hiringType  = $conn->real_escape_string($_POST['hiringType']   ?? '');
-    $workingHrs  = $conn->real_escape_string($_POST['workingHours'] ?? '');
+    $id          = (int)(isset($_POST['record_id'])    ? $_POST['record_id']    : 0);
+    $title       = $conn->real_escape_string(isset($_POST['jobTitle'])     ? $_POST['jobTitle']     : '');
+    $desc        = $conn->real_escape_string(isset($_POST['jobDescript'])  ? $_POST['jobDescript']  : '');
+    $position    = $conn->real_escape_string(isset($_POST['jobPosition'])  ? $_POST['jobPosition']  : '');
+    $location    = $conn->real_escape_string(isset($_POST['jobLocation'])  ? $_POST['jobLocation']  : '');
+    $qualif      = $conn->real_escape_string(isset($_POST['jobQualific'])  ? $_POST['jobQualific']  : '');
+    $experience  = $conn->real_escape_string(isset($_POST['jobExperie'])   ? $_POST['jobExperie']   : '');
+    $contacts    = $conn->real_escape_string(isset($_POST['jobsend'])      ? $_POST['jobsend']      : '');
+    $deadline    = $conn->real_escape_string(isset($_POST['dld'])          ? $_POST['dld']          : '');
+    $hiringType  = $conn->real_escape_string(isset($_POST['hiringType'])   ? $_POST['hiringType']   : '');
+    $workingHrs  = $conn->real_escape_string(isset($_POST['workingHours']) ? $_POST['workingHours'] : '');
 
     $imgUpdate = '';
     $allowed   = ['jpg','jpeg','png','gif','webp'];

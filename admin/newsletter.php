@@ -8,8 +8,8 @@ $error   = '';
 
 // Handle send campaign
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_newsletter'])) {
-    $subject  = strip_tags(trim($_POST['nl_subject'] ?? ''));
-    $bodyHtml = trim($_POST['nl_body'] ?? '');
+    $subject  = strip_tags(trim(isset($_POST['nl_subject']) ? $_POST['nl_subject'] : ''));
+    $bodyHtml = trim(isset($_POST['nl_body']) ? $_POST['nl_body'] : '');
 
     if (empty($subject) || empty($bodyHtml)) {
         $error = 'Subject and message body are required.';

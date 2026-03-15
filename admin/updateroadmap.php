@@ -3,9 +3,9 @@ include 'config.php';
 include 'sessionizr.php';
 
 if (isset($_POST['update_roadmap'])) {
-    $id      = (int)($_POST['record_id'] ?? 0);
-    $title   = $conn->real_escape_string($_POST['rdtitle']   ?? '');
-    $content = $conn->real_escape_string($_POST['rdcontent'] ?? '');
+    $id      = (int)(isset($_POST['record_id']) ? $_POST['record_id'] : 0);
+    $title   = $conn->real_escape_string(isset($_POST['rdtitle'])   ? $_POST['rdtitle']   : '');
+    $content = $conn->real_escape_string(isset($_POST['rdcontent']) ? $_POST['rdcontent'] : '');
 
     $imgUpdate = '';
     $allowed   = ['jpg','jpeg','png','gif','webp'];

@@ -10,7 +10,7 @@ if (isset($_GET['jobid'])) {
     if ($jmeta && $jmeta->num_rows > 0) {
         $jrow      = $jmeta->fetch_assoc();
         $pageTitle = htmlspecialchars($jrow['job_title']) . ' | GECOD Initiative Careers';
-        $pageDesc  = mb_substr(strip_tags(html_entity_decode($jrow['JobDescription'])), 0, 155) . '…';
+        $pageDesc  = substr(strip_tags(html_entity_decode($jrow['JobDescription'])), 0, 155) . '…';
     }
 }
 include 'includes/header.php';
@@ -38,7 +38,7 @@ if (isset($_GET['jobid'])) {
         $contacts    = htmlspecialchars($job['contacts']);
         $imgBanner   = htmlspecialchars($job['imgBanner']);
         $hiringType  = htmlspecialchars($job['hiringType']);
-        $workHours   = htmlspecialchars($job['workingHours'] ?? '');
+        $workHours   = htmlspecialchars(isset($job['workingHours']) ? $job['workingHours'] : '');
 
         // Format dates
         $deadlineFmt = '';

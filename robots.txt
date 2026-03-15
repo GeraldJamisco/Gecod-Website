@@ -1,11 +1,21 @@
 User-agent: *
 Allow: /
 
-# Block admin and server-side includes from indexing
+# Block admin area from crawlers
 Disallow: /admin/
-Disallow: /includes/
+Disallow: /config.php
+Disallow: /save-donation.php
 Disallow: /sendmail.php
 Disallow: /checkout-cart.php
+Disallow: /includes/
 
-# Sitemap location (update domain if needed)
-Sitemap: https://gecod.flowpesa.com/sitemap.xml
+# Block utility/library files
+Disallow: /lib/
+Disallow: /css/
+Disallow: /js/
+
+# Allow important assets crawlers may need for rendering
+Allow: /img/
+Allow: /css/style.css
+
+Sitemap: https://gecodinitiative.org/sitemap.php
